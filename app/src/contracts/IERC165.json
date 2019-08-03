@@ -21,25 +21,25 @@
       "type": "function"
     }
   ],
-  "metadata": "",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"name\":\"interfaceId\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md\",\"methods\":{\"supportsInterface(bytes4)\":{\"details\":\"Interface identification is specified in ERC-165. This function uses less than 30,000 gas.\",\"params\":{\"interfaceId\":\"The interface identifier, as specified in ERC-165\"}}},\"title\":\"IERC165\"},\"userdoc\":{\"methods\":{\"supportsInterface(bytes4)\":{\"notice\":\"Query if a contract implements an interface\"}}}},\"settings\":{\"compilationTarget\":{\"/home/jasoons/Documents/india-hackathon/ethindia/contracts/interfaces/IERC165.sol\":\"IERC165\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/jasoons/Documents/india-hackathon/ethindia/contracts/interfaces/IERC165.sol\":{\"keccak256\":\"0xfb2758dbd44b9aab19f4e145f076c37b5d4f47d4af450061c06fcb51f2ddf310\",\"urls\":[\"bzzr://a26eb788d7e561a82e696f085f82ebdd6c821bd4c596a613c2ecc7ff906007ba\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.5.0;\n\n/**\n * @title IERC165\n * @dev https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md\n */\ninterface IERC165 {\n    /**\n     * @notice Query if a contract implements an interface\n     * @param interfaceId The interface identifier, as specified in ERC-165\n     * @dev Interface identification is specified in ERC-165. This function\n     * uses less than 30,000 gas.\n     */\n    function supportsInterface(bytes4 interfaceId) external view returns (bool);\n}",
-  "sourcePath": "/home/denham/Desktop/Blockchain/ETHIndia/dapp/contracts/interfaces/IERC165.sol",
+  "sourcePath": "/home/jasoons/Documents/india-hackathon/ethindia/contracts/interfaces/IERC165.sol",
   "ast": {
-    "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/dapp/contracts/interfaces/IERC165.sol",
+    "absolutePath": "/home/jasoons/Documents/india-hackathon/ethindia/contracts/interfaces/IERC165.sol",
     "exportedSymbols": {
       "IERC165": [
-        1814
+        2019
       ]
     },
-    "id": 1815,
+    "id": 2020,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1806,
+        "id": 2011,
         "literals": [
           "solidity",
           "^",
@@ -55,9 +55,9 @@
         "contractKind": "interface",
         "documentation": "@title IERC165\n@dev https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md",
         "fullyImplemented": false,
-        "id": 1814,
+        "id": 2019,
         "linearizedBaseContracts": [
-          1814
+          2019
         ],
         "name": "IERC165",
         "nodeType": "ContractDefinition",
@@ -65,22 +65,22 @@
           {
             "body": null,
             "documentation": "@notice Query if a contract implements an interface\n@param interfaceId The interface identifier, as specified in ERC-165\n@dev Interface identification is specified in ERC-165. This function\nuses less than 30,000 gas.",
-            "id": 1813,
+            "id": 2018,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "supportsInterface",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1809,
+              "id": 2014,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1808,
+                  "id": 2013,
                   "name": "interfaceId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1813,
+                  "scope": 2018,
                   "src": "432:18:7",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -89,7 +89,7 @@
                     "typeString": "bytes4"
                   },
                   "typeName": {
-                    "id": 1807,
+                    "id": 2012,
                     "name": "bytes4",
                     "nodeType": "ElementaryTypeName",
                     "src": "432:6:7",
@@ -105,15 +105,15 @@
               "src": "431:20:7"
             },
             "returnParameters": {
-              "id": 1812,
+              "id": 2017,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1811,
+                  "id": 2016,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1813,
+                  "scope": 2018,
                   "src": "475:4:7",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -122,7 +122,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 1810,
+                    "id": 2015,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "475:4:7",
@@ -137,31 +137,31 @@
               ],
               "src": "474:6:7"
             },
-            "scope": 1814,
+            "scope": 2019,
             "src": "405:76:7",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 1815,
+        "scope": 2020,
         "src": "120:363:7"
       }
     ],
     "src": "0:483:7"
   },
   "legacyAST": {
-    "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/dapp/contracts/interfaces/IERC165.sol",
+    "absolutePath": "/home/jasoons/Documents/india-hackathon/ethindia/contracts/interfaces/IERC165.sol",
     "exportedSymbols": {
       "IERC165": [
-        1814
+        2019
       ]
     },
-    "id": 1815,
+    "id": 2020,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1806,
+        "id": 2011,
         "literals": [
           "solidity",
           "^",
@@ -177,9 +177,9 @@
         "contractKind": "interface",
         "documentation": "@title IERC165\n@dev https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md",
         "fullyImplemented": false,
-        "id": 1814,
+        "id": 2019,
         "linearizedBaseContracts": [
-          1814
+          2019
         ],
         "name": "IERC165",
         "nodeType": "ContractDefinition",
@@ -187,22 +187,22 @@
           {
             "body": null,
             "documentation": "@notice Query if a contract implements an interface\n@param interfaceId The interface identifier, as specified in ERC-165\n@dev Interface identification is specified in ERC-165. This function\nuses less than 30,000 gas.",
-            "id": 1813,
+            "id": 2018,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "supportsInterface",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1809,
+              "id": 2014,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1808,
+                  "id": 2013,
                   "name": "interfaceId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1813,
+                  "scope": 2018,
                   "src": "432:18:7",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -211,7 +211,7 @@
                     "typeString": "bytes4"
                   },
                   "typeName": {
-                    "id": 1807,
+                    "id": 2012,
                     "name": "bytes4",
                     "nodeType": "ElementaryTypeName",
                     "src": "432:6:7",
@@ -227,15 +227,15 @@
               "src": "431:20:7"
             },
             "returnParameters": {
-              "id": 1812,
+              "id": 2017,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1811,
+                  "id": 2016,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1813,
+                  "scope": 2018,
                   "src": "475:4:7",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -244,7 +244,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 1810,
+                    "id": 2015,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "475:4:7",
@@ -259,14 +259,14 @@
               ],
               "src": "474:6:7"
             },
-            "scope": 1814,
+            "scope": 2019,
             "src": "405:76:7",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 1815,
+        "scope": 2020,
         "src": "120:363:7"
       }
     ],
@@ -274,11 +274,11 @@
   },
   "compiler": {
     "name": "solc",
-    "version": "0.5.0+commit.1d4f565a.Emscripten.clang"
+    "version": "0.5.8+commit.23d335f2.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.0.6",
-  "updatedAt": "2019-08-02T19:58:30.591Z",
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2019-08-03T11:51:53.343Z",
   "devdoc": {
     "details": "https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md",
     "methods": {

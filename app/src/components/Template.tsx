@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Dapp from "./Dapp"
+import { TokenIdProvider } from "./TokenIdContext";
 
 class Template extends Component {
   render() {
@@ -7,7 +8,9 @@ class Template extends Component {
       <div>
         <div className="Grid">
           <div className="Grid-item">
-            <Dapp />
+            <TokenIdProvider tokenId={0}>
+              <Dapp />
+            </TokenIdProvider>
           </div>
           <div className="Grid-item"></div>
           <div className="Grid-item"></div>
@@ -18,7 +21,7 @@ class Template extends Component {
           <div className="Grid-item"></div>
           <div className="Grid-item"></div>
         </div>
-      </div>
+      </div >
     );
   }
 }
