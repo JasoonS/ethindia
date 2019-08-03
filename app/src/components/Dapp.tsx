@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import web3ProvideSwitcher from '../web3ProvideSwitcher';
 import { UsdPriceProvider } from './USDPriceContext';
 import { connectTokenId } from './TokenIdContext';
+import IPFS from 'ipfs';
 
 class Dapp extends Component<any, any> {
   contracts: any;
@@ -24,55 +25,80 @@ class Dapp extends Component<any, any> {
 
   constructor(props: any, context: any) {
     super(props);
-    const tokenId= 0
+    const tokenId = 0;
     // console.log(context.drizzle.contracts.VitalikSteward.methods.hashes.);
     //console.log(context.drizzle.contracts['VitalikSteward']['hashes']['0x0']);
     this.contracts = context.drizzle.contracts;
     this.utils = context.drizzle.web3.utils;
     this.context = context;
 
-    this.state = { tokenOwner: '' ,
-    hashesKeys: [
-      context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(0),
-      context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(1),
-      context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(2),
-      context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(3),
-      context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(4),
-      context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(5),
-      context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(6),
-      context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(7),
-      context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(8)],
-      hashes: [null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-    ]
-  };
+    this.state = {
+      tokenOwner: '',
+      hashesKeys: [
+        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(0),
+        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(1),
+        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(2),
+        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(3),
+        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(4),
+        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(5),
+        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(6),
+        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(7),
+        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(8)
+      ],
+      hashes: [null, null, null, null, null, null, null, null, null],
+      base64Image: ''
+    };
   }
 
+  getBase64Image = () => {
+    const hash = 'QmfCHzWyFrwmVwDaqj28VgUkHJ4aZA5DNBfcJRxU1GLGeq';
+
+    const node = new IPFS();
+
+    node.once('ready', () => {
+      node.cat(hash, (err: any, data: any) => {
+        if (err) return console.error(err);
+
+        // convert Buffer back to string
+        // console.log(data.toString())
+        this.setState({
+          ...this.state,
+          base64Image: data.toString()
+        });
+      });
+    });
+  };
+
+  async componentDidMount() {
+    this.getBase64Image();
+  }
+
+  // async componentWillReceiveProps(nextProps: any) {
+
+  //   const { tokenId } = nextProps
+  //   const tokenOwnerKey = this.context.drizzle.contracts.ERC721Full.methods.ownerOf.cacheCall(tokenId)
+  //   const tokenOwnerObj = nextProps.contracts['ERC721Full']['ownerOf'][tokenOwnerKey]
 
   async componentWillReceiveProps(nextProps: any) {
     // console.log("hello jason", this.state.hashesKeys)
     const newHashes = this.state.hashes.map((oldHash: any, key: any) => {
       // this.state.patronageOwedKey in nextProps.contracts['VitalikSteward']['patronageOwed']
-      if(this.state.hashesKeys[key] in this.props.contracts['VitalikSteward']['hashes'] &&
-      this.state.hashesKeys[key] in nextProps.contracts['VitalikSteward']['hashes']) {
-        
+      if (
+        this.state.hashesKeys[key] in
+          this.props.contracts['VitalikSteward']['hashes'] &&
+        this.state.hashesKeys[key] in
+          nextProps.contracts['VitalikSteward']['hashes']
+      ) {
         //console.log("hello jonjon")
-          const hashNext = nextProps.contracts['VitalikSteward']['hashes'][this.state.hashesKeys[key]].value
-          console.log(hashNext)
-          return (oldHash !== hashNext) ? hashNext : oldHash
-           }
-          
-        })
-        this.setState({...this.state,
-          hashes: newHashes
-        })
+        const hashNext =
+          nextProps.contracts['VitalikSteward']['hashes'][
+            this.state.hashesKeys[key]
+          ].value;
+        console.log(hashNext);
+        return oldHash !== hashNext ? hashNext : oldHash;
+      }
+    });
+    this.setState({ ...this.state, hashes: newHashes });
     const { tokenId } = nextProps;
     const tokenOwnerKey = this.context.drizzle.contracts.ERC721Full.methods.ownerOf.cacheCall(
       tokenId
@@ -104,7 +130,12 @@ class Dapp extends Component<any, any> {
         <OfflineContainer>
           <div className='image-container'>
             <a href='https://wildcards.world?ref=alwaysforsale'>
-              <img src={wildcardsImage} style={{ width: '100%' }} />
+              {this.state.base64Image != '' && (
+                <img
+                  src={`${this.state.base64Image}`}
+                  style={{ width: '100%' }}
+                />
+              )}
             </a>
             {this.props.displayPurchase && (
               <div className='interaction-button-container'>

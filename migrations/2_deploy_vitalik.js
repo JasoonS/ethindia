@@ -8,7 +8,7 @@ module.exports = function (deployer, network, accounts) {
   if (network === 'goerly' || network === "rinkeby" || network === "rinkeby-fork" || network === "mainnet" || network === "mainnet-fork") {
     // deploy with mnemonic provider
     deployer.deploy(Vitalik, "This Vitalik Is Always OnSale", "TVIAOS").then((deployedVitalik) => {
-      console.log(deployedVitalik.address);
+      // console.log(deployedVitalik.address);
       return deployer.deploy(VitalikSteward, organization, deployedVitalik.address);
     });
   } else {

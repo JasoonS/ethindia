@@ -278,7 +278,11 @@
   },
   "networks": {},
   "schemaVersion": "3.0.6",
+<<<<<<< HEAD
   "updatedAt": "2019-08-03T14:37:40.627Z",
+=======
+  "updatedAt": "2019-08-03T15:55:44.760Z",
+>>>>>>> denham
   "devdoc": {
     "details": "https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md",
     "methods": {

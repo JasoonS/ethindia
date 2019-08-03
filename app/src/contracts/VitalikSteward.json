@@ -24298,12 +24298,21 @@
         }
       },
       "links": {},
+<<<<<<< HEAD
       "address": "0xD2608D5a29343A6e44a33f4cFD54a27218d21058",
       "transactionHash": "0x297385bdac920795b78c28256d659a2ff5741975c6348dce4e4491e66d5ea629"
     }
   },
   "schemaVersion": "3.0.6",
   "updatedAt": "2019-08-03T14:50:59.781Z",
+=======
+      "address": "0xC035bB0B3c161cAaa9fD3b9f37b98e22BF846557",
+      "transactionHash": "0x66672a767a9f4598bf69fae37bab9307e8bff5d01b6042a86986253ed1467a5d"
+    }
+  },
+  "schemaVersion": "3.0.6",
+  "updatedAt": "2019-08-03T15:55:48.118Z",
+>>>>>>> denham
   "devdoc": {
     "methods": {}
   },

@@ -2182,12 +2182,21 @@
     "5777": {
       "events": {},
       "links": {},
+<<<<<<< HEAD
       "address": "0x58291fD96078C3Cd524AE4C6188c84FD995Ec04E",
       "transactionHash": "0x40902358c7d90aed65b95a5a50b78e4f16c4bb8dc4d095c71ddf503fbfb9fcd9"
     }
   },
   "schemaVersion": "3.0.6",
   "updatedAt": "2019-08-03T14:50:59.808Z",
+=======
+      "address": "0x61F3669B10bE46479BA2AE99b0CDBB3B0D5E439C",
+      "transactionHash": "0xabd24748770bf11738717cb6f36308012163b7119ea2e92e6809f800aced0b5f"
+    }
+  },
+  "schemaVersion": "3.0.6",
+  "updatedAt": "2019-08-03T15:55:48.140Z",
+>>>>>>> denham
   "devdoc": {
     "details": "see https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md",
     "methods": {

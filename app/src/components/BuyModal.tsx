@@ -196,7 +196,7 @@ class BuyModal extends Component<any, any> {
     const transactionProcessing = currentTxIndex !== -1;
     return (
       <React.Fragment>
-        <Button mainColor="#2c2c2c" onClick={this.openModal}>Buy</Button>
+        <Button mainColor='#7A7A7A' size="small" onClick={this.openModal}>Buy</Button>
 
         <Modal isOpen={this.state.isOpen}>
           <Card width={'420px'} p={0}>

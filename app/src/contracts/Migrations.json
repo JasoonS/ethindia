@@ -1382,12 +1382,21 @@
     "5777": {
       "events": {},
       "links": {},
+<<<<<<< HEAD
       "address": "0xa2fd9Ca52112Ffaa4f08f7eD24A88596DeAC279a",
       "transactionHash": "0xc247fd5eb4d3a231811de6b086b3b18b669e4ecd779a26ddb7f94b7e084df15d"
     }
   },
   "schemaVersion": "3.0.6",
   "updatedAt": "2019-08-03T14:50:59.813Z",
+=======
+      "address": "0x0DbeAF212aFA91185353b4F5034b0d704d00B4e1",
+      "transactionHash": "0x1dc6f98133480e36254831e3b49b98d5bb5e864f6527e98342989ae6f290d246"
+    }
+  },
+  "schemaVersion": "3.0.6",
+  "updatedAt": "2019-08-03T15:55:48.158Z",
+>>>>>>> denham
   "devdoc": {
     "methods": {}
   },
