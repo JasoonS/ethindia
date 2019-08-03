@@ -20,6 +20,7 @@ contract VitalikSteward {
     
     uint256[numberOfTokens] public price; //in wei
     IERC721Full public assetToken; // ERC721 NFT.
+    string[numberOfTokens] public hashes; //Image hashes IPFS
     
     uint256[numberOfTokens] public totalCollected; // all patronage ever collected
     uint256[numberOfTokens] public currentCollected; // amount currently collected for patron  
@@ -52,6 +53,7 @@ contract VitalikSteward {
 
     event LogBuy(address indexed owner, uint256 indexed price);
     event LogPriceChange(uint256 indexed newPrice);
+    event LogImageChange(string indexed newImage);
     event LogForeclosure(address indexed prevOwner);
     event LogCollection(uint256 indexed collected);
     
@@ -179,6 +181,14 @@ contract VitalikSteward {
         
         price[tokenIndex] = _newPrice;
         emit LogPriceChange(price[tokenIndex]);
+    }
+
+    function changeImage(uint8 tokenIndex, string memory _newHash) public onlyPatron(tokenIndex) {
+        require(state[tokenIndex] != StewardState.Foreclosed, "Foreclosed");
+        require(bytes(_newHash).length == 46, "Hash not valid ");
+        
+        hashes[tokenIndex] = _newHash;
+        emit LogImageChange(hashes[tokenIndex]);
     }
     
     function withdrawDeposit(uint8 tokenIndex, uint256 _wei) public onlyPatron(tokenIndex) collectPatronage(tokenIndex) returns (uint256) {
