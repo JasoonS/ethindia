@@ -13,7 +13,8 @@ enum ModalState {
   Deposit,
   Price,
   Closed,
-  UploadImage
+  UploadImage,
+  updateWebsiteUrl
 }
 
 interface state {
@@ -22,8 +23,9 @@ interface state {
   connectedToInjectedWeb3: boolean,
   currentTxIndex: number,
   depositState: boolean,
-  depositAvailable: any
-  balance: number
+  depositAvailable: any,
+  balance: number,
+  updateUrl: string
 }
 
 class BuyModal extends Component<any, any> {
@@ -63,6 +65,7 @@ class BuyModal extends Component<any, any> {
       currentTxIndex: -1,
       depositState: true,
       depositAvailable: '',
+      updateUrl: '',
       balance: -1,
     };
   }
@@ -70,13 +73,28 @@ class BuyModal extends Component<any, any> {
 
   updateImageHashOnSmartContract = (imageHash: string) => {
     let currentTxIndex: number
-    if(this.state.modalState === ModalState.UploadImage){
+    if (this.state.modalState === ModalState.UploadImage) {
       currentTxIndex = this.contracts.VitalikSteward.methods[
         'changeImage'
       ].cacheSend(this.props.tokenId, imageHash)
     }
-    
+
     this.setState((state: any, props: any) => ({
+      ...state,
+      currentTxIndex
+    }))
+  }
+
+  handleSubmitOfWebsite = (event: any) => {
+    event.preventDefault();
+    let inputValue = this.state.updateUrl
+    let currentTxIndex: any
+    // if(this.state.modalState === ModalState.updateWebsiteUrl){
+    currentTxIndex = this.contracts.VitalikSteward.methods[
+      'changeUrl'
+    ].cacheSend(this.props.tokenId, inputValue)
+    // }
+    this.setState((state: any, props: any) => ({ 
       ...state,
       currentTxIndex
     }))
@@ -91,9 +109,14 @@ class BuyModal extends Component<any, any> {
       currentTxIndex = this.contracts.VitalikSteward.methods[
         contractFunction
       ].cacheSend(this.props.tokenId, { value: inputValue })
-    } else if (this.state.modalState === ModalState.Price){
+    } else if (this.state.modalState === ModalState.Price) {
       currentTxIndex = this.contracts.VitalikSteward.methods[
         'changePrice'
+      ].cacheSend(this.props.tokenId, inputValue)
+    }
+    else if (this.state.modalState === ModalState.updateWebsiteUrl) {
+      currentTxIndex = this.contracts.VitalikSteward.methods[
+        'changeUrl'
       ].cacheSend(this.props.tokenId, inputValue)
     }
     // else if(this.state.modalState === ModalState.UploadImage){
@@ -101,7 +124,7 @@ class BuyModal extends Component<any, any> {
     //     'changeImage'
     //   ].cacheSend(this.props.tokenId, inputValue)
     // }
-    
+
     this.setState((state: any, props: any) => ({
       ...state,
       currentTxIndex
@@ -146,6 +169,13 @@ class BuyModal extends Component<any, any> {
     }
   }
 
+  handleWebsiteInputChange = (event: any) => {
+    this.setState({
+      ...this.state,
+      updateUrl: event.target.value
+    })
+  }
+
   handleInputChange(event: any) {
     this.setState({
       ...this.state,
@@ -154,6 +184,8 @@ class BuyModal extends Component<any, any> {
       }
     })
   }
+
+
 
   translateType(type: any) {
     switch (true) {
@@ -231,70 +263,72 @@ class BuyModal extends Component<any, any> {
         <Button mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.Deposit)} > Add/Remove Deposit</Button>
         &ensp;
         <Button mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.UploadImage)} > Upload Image</Button>
-        <div style={{position: 'absolute', top: '1000'}}>
-        <Modal isOpen={this.state.modalState === ModalState.Price}>
-          <Card width={'420px'} p={0}>
-            <Button.Text
-              icononly
-              icon={'Close'}
-              color={'moon-gray'}
-              position={'absolute'}
-              top={0}
-              right={0}
-              mt={3}
-              mr={3}
-              onClick={this.closeModal}
-            />
-            {this.state.connectedToInjectedWeb3 ?
+        &ensp;
+        <Button mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.updateWebsiteUrl)} > Update Website</Button>
+        <div style={{ position: 'absolute', top: '1000' }}>
+          <Modal isOpen={this.state.modalState === ModalState.Price}>
+            <Card width={'420px'} p={0}>
+              <Button.Text
+                icononly
+                icon={'Close'}
+                color={'moon-gray'}
+                position={'absolute'}
+                top={0}
+                right={0}
+                mt={3}
+                mr={3}
+                onClick={this.closeModal}
+              />
+              {this.state.connectedToInjectedWeb3 ?
 
-              <Box p={4} mb={3}>{
-                transactionProcessing ?
-                  <Fragment>
-                    <Heading.h3>Processing Transaction</Heading.h3>
-                    <p>{transactionStatus}</p>
-                    {!!txHash && <a href={'https://etherscan.io/tx/' + txHash} target="_blank">View transaction on Ethersan</a>}
-                    {!txComplete && <Loader color="red" size="80px" />}
-                  </Fragment>
-                  :
-                  <Fragment>
-                    <Heading.h3>Price</Heading.h3>
-                    <Text>
-                      How much would you like to receive from selling Vitalik?
+                <Box p={4} mb={3}>{
+                  transactionProcessing ?
+                    <Fragment>
+                      <Heading.h3>Processing Transaction</Heading.h3>
+                      <p>{transactionStatus}</p>
+                      {!!txHash && <a href={'https://etherscan.io/tx/' + txHash} target="_blank">View transaction on Ethersan</a>}
+                      {!txComplete && <Loader color="red" size="80px" />}
+                    </Fragment>
+                    :
+                    <Fragment>
+                      <Heading.h3>Price</Heading.h3>
+                      <Text>
+                        How much would you like to receive from selling Vitalik?
                     </Text>
-                    <form className="pure-form pure-form-stacked" onSubmit={this.handleSubmit}>
-                      <Input
-                        key='newSettingValue'
-                        type='number'
-                        name='newSettingValue'
-                        value={this.state.contractFunctions['newSettingValue'] || 0}
-                        placeholder={`Price`}
-                        onChange={this.handleInputChange}
-                        style={{ width: '100%' }}
-                        startAdornment={<InputAdornment position="start">ETH</InputAdornment>}
-                      />
-                      <br />
-                    </form>
-                    <TokenOverview />
-                  </Fragment>}
-              </Box>
-              :
-              <Box p={4} mb={3}>
-                <Heading.h3>NOTICE</Heading.h3>
-                <Text>
-                  Unable to connect to metamask, so unable to sign transactions.
+                      <form className="pure-form pure-form-stacked" onSubmit={this.handleSubmit}>
+                        <Input
+                          key='newSettingValue'
+                          type='number'
+                          name='newSettingValue'
+                          value={this.state.contractFunctions['newSettingValue'] || 0}
+                          placeholder={`Price`}
+                          onChange={this.handleInputChange}
+                          style={{ width: '100%' }}
+                          startAdornment={<InputAdornment position="start">ETH</InputAdornment>}
+                        />
+                        <br />
+                      </form>
+                      <TokenOverview />
+                    </Fragment>}
+                </Box>
+                :
+                <Box p={4} mb={3}>
+                  <Heading.h3>NOTICE</Heading.h3>
+                  <Text>
+                    Unable to connect to metamask, so unable to sign transactions.
                 </Text>
-              </Box>
-            }
-            {(!transactionProcessing) && <Flex px={4} py={3} borderTop={1} borderColor={'#E8E8E8'} justifyContent={'flex-end'}>
-              {/* <Button.Outline>Cancel</Button.Outline> In the future this could be for resetting the values or something*/}
-              <Button
-                mainColor="#6bad3e"
-                ml={3}
-                onClick={this.handleSubmit}
-              >Update</Button>
-            </Flex>}
-          </Card>
-        </Modal>
+                </Box>
+              }
+              {(!transactionProcessing) && <Flex px={4} py={3} borderTop={1} borderColor={'#E8E8E8'} justifyContent={'flex-end'}>
+                {/* <Button.Outline>Cancel</Button.Outline> In the future this could be for resetting the values or something*/}
+                <Button
+                  mainColor="#6bad3e"
+                  ml={3}
+                  onClick={this.handleSubmit}
+                >Update</Button>
+              </Flex>}
+            </Card>
+          </Modal>
         </div>
         <Modal isOpen={this.state.modalState === ModalState.Deposit}>
           <Card width={'420px'} p={0}>
@@ -391,7 +425,7 @@ class BuyModal extends Component<any, any> {
                       We recommend an optimal image dimesions of 300 x 300 pixels
                     </Text>
                     <form className="pure-form pure-form-stacked" onSubmit={this.handleSubmit}>
-                    <UploadImage updateImageHashOnSmartContract={this.updateImageHashOnSmartContract}/>                   
+                      <UploadImage updateImageHashOnSmartContract={this.updateImageHashOnSmartContract} />
                       <br />
                     </form>
                     <TokenOverview />
@@ -412,6 +446,70 @@ class BuyModal extends Component<any, any> {
                 ml={3}
                 onClick={this.handleSubmit}
               >{this.state.depositState ? 'Add' : 'Withdraw'}</Button>
+            </Flex>}
+          </Card>
+        </Modal>
+        <Modal isOpen={this.state.modalState === ModalState.updateWebsiteUrl}>
+          <Card width={'420px'} p={0}>
+            <Button.Text
+              icononly
+              icon={'Close'}
+              color={'moon-gray'}
+              position={'absolute'}
+              top={0}
+              right={0}
+              mt={3}
+              mr={3}
+              onClick={this.closeModal}
+            />
+            {this.state.connectedToInjectedWeb3 ?
+
+              <Box p={4} mb={3}>{
+                transactionProcessing ?
+                  <Fragment>
+                    <Heading.h3>Processing Transaction</Heading.h3>
+                    <p>{transactionStatus}</p>
+                    {!!txHash && <a href={'https://etherscan.io/tx/' + txHash} target="_blank">View transaction on Ethersan</a>}
+                    {!txComplete && <Loader color="red" size="80px" />}
+                  </Fragment>
+                  :
+                  <Fragment>
+                    <Heading.h3>Update website url</Heading.h3>
+                    <Text>
+                      Don't forget to add http or https at the beginning
+                    </Text>
+                    <form className="pure-form pure-form-stacked" onSubmit={this.handleSubmitOfWebsite}>
+                      <Input
+                        key='updateUrl'
+                        type='text'
+                        name='updateUrl'
+                        value={this.state.updateUrl || ''}
+                        // value={this.state.contractFunctions['newSettingValue'] || ''}
+                        // placeholder={`Amount to ${this.state.depositState ? 'add' : 'remove'}`}
+                        onChange={this.handleWebsiteInputChange}
+                        style={{ width: '100%' }}
+                      // startAdornment={<InputAdornment position="start">ETH</InputAdornment>}
+                      />
+                      <br />
+                    </form>
+                    <TokenOverview />
+                  </Fragment>}
+              </Box>
+              :
+              <Box p={4} mb={3}>
+                <Heading.h3>NOTICE</Heading.h3>
+                <Text>
+                  Unable to connect to metamask, so unable to sign transactions.
+                </Text>
+              </Box>
+            }
+            {(!transactionProcessing) && <Flex px={4} py={3} borderTop={1} borderColor={'#E8E8E8'} justifyContent={'flex-end'}>
+              {/* <Button.Outline>Cancel</Button.Outline> In the future this could be for resetting the values or something*/}
+              <Button
+                mainColor="#6bad3e"
+                ml={3}
+                onClick={this.handleSubmitOfWebsite}
+              >Update Website Url</Button>
             </Flex>}
           </Card>
         </Modal>

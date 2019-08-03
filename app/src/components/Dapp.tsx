@@ -30,34 +30,25 @@ class Dapp extends Component<any, any> {
     this.contracts = context.drizzle.contracts;
     this.utils = context.drizzle.web3.utils;
     this.context = context;
-    
+
 
     this.state = {
       tokenOwner: '',
-      hashesKeys: [
-        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(0),
-        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(1),
-        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(2),
-        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(3),
-        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(4),
-        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(5),
-        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(6),
-        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(7),
-        context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(8)
-      ],
-      hashes: [null, null, null, null, null, null, null, null, null],
-      base64Image: ''
+      hasheKey: context.drizzle.contracts.VitalikSteward.methods.hashes.cacheCall(props.tokenId),
+      urlKey: context.drizzle.contracts.VitalikSteward.methods.urls.cacheCall(props.tokenId),
+      hashe: null,
+      base64Image: '',
+      websiteUrl: ''
     };
   }
 
-  componentWillMount() {
-    setTimeout(()=>{this.getBase64Image()}, 3000);
-    console.log(this.props.tokenId)
-  }
+  // componentWillMount() {
+  //   setTimeout(()=>{this.getBase64Image()}, 3000);
+  //   console.log(this.props.tokenId)
+  // }
 
-
-  getBase64Image = () => {
-    const hash =   this.state.hashes[this.props.tokenId];
+  getBase64Image = (hash: any) => {
+    // const hash =   this.state.hash;
     // console.log(this.state.hashes[0])
     // console.log(hash)
     // const hash = 'QmfCHzWyFrwmVwDaqj28VgUkHJ4aZA5DNBfcJRxU1GLGeq';
@@ -77,45 +68,43 @@ class Dapp extends Component<any, any> {
     });
   };
 
-  async componentDidMount() {
-   
-  }
+  // async componentDidMount() {
 
-  // async componentWillReceiveProps(nextProps: any) {
-
-  //   const { tokenId } = nextProps
-  //   const tokenOwnerKey = this.context.drizzle.contracts.ERC721Full.methods.ownerOf.cacheCall(tokenId)
-  //   const tokenOwnerObj = nextProps.contracts['ERC721Full']['ownerOf'][tokenOwnerKey]
+  // }
 
   async componentWillReceiveProps(nextProps: any) {
 
+    if (this.state.urlKey in this.props.contracts['VitalikSteward']['urls'] && 
+    this.state.urlKey in nextProps.contracts['VitalikSteward']['urls']
+    ){
+      const urlNext =
+        nextProps.contracts['VitalikSteward']['urls'][
+          this.state.urlKey
+        ].value;
 
-    
-    // console.log("hello jason", this.state.hashesKeys)
-    const newHashes = this.state.hashes.map((oldHash: any, key: any) => {
-      // console.log(key)
-      // this.state.patronageOwedKey in nextProps.contracts['VitalikSteward']['patronageOwed']
-      if (
-        this.state.hashesKeys[key] in
-          this.props.contracts['VitalikSteward']['hashes'] &&
-        this.state.hashesKeys[key] in
-          nextProps.contracts['VitalikSteward']['hashes']
-      ) {
-        //console.log("hello jonjon")
-        const hashNext =
-          nextProps.contracts['VitalikSteward']['hashes'][
-            this.state.hashesKeys[key]
-          ].value;
-        // console.log(hashNext);
-        
-        if(oldHash !== hashNext) {
-          return hashNext
-        } else {
-          return imageHash
-        }
+      if (this.state.websiteUrl !== urlNext) {        
+        this.setState({ ...this.state, websiteUrl: urlNext })
       }
-    });
-    this.setState({ ...this.state, hashes: newHashes });
+    }
+
+    if (
+      this.state.hasheKey in
+      this.props.contracts['VitalikSteward']['hashes'] &&
+      this.state.hasheKey in
+      nextProps.contracts['VitalikSteward']['hashes']
+    ) {
+      const hashNext =
+        nextProps.contracts['VitalikSteward']['hashes'][
+          this.state.hasheKey
+        ].value;
+
+      if (this.state.hash !== hashNext) {
+        this.getBase64Image(hashNext)
+        this.setState({ ...this.state, hash: hashNext })
+      }
+    }
+    // });
+    // this.setState({ ...this.state, hashes: newHashes });
     const { tokenId } = nextProps;
     const tokenOwnerKey = this.context.drizzle.contracts.ERC721Full.methods.ownerOf.cacheCall(
       tokenId
@@ -142,19 +131,17 @@ class Dapp extends Component<any, any> {
     const showInteracting = true;
     const isTokenOwner = tokenOwner === accounts[0];
 
-    // console.log(this.state.hashes)
-
     return (
       <Fragment>
         <OfflineContainer>
           <div className='image-container'>
-            <a href='https://wildcards.world?ref=alwaysforsale'>
-              {this.state.hashes[0] != null  && ( //TODO undefined
+            <a href={`${this.state.websiteUrl}?ref=alwaysforsale`}>
+              {!!this.state.base64Image && ( //TODO undefined
                 <img
                   src={`${this.state.base64Image}`}
                   style={{ width: '100%' }}
                 />
-               )}
+              )}
             </a>
             {this.props.displayPurchase && (
               <div className='interaction-button-container'>
@@ -167,26 +154,26 @@ class Dapp extends Component<any, any> {
                       </Fragment>
                     </div>
                   ) : (
-                    <div>
-                      {showDapp ? (
-                        <BuyModal />
-                      ) : (
-                        <h3
-                          style={{
-                            margin: 0,
-                            color: '#6bad3e',
-                            padding: '0.8rem 1.2rem',
-                            display: 'inline-block'
-                          }}
-                        >
-                          Install <a href='https://metamask.io'>Metamask</a> to
-                          buy this ad space.
+                      <div>
+                        {showDapp ? (
+                          <BuyModal />
+                        ) : (
+                            <h3
+                              style={{
+                                margin: 0,
+                                color: '#6bad3e',
+                                padding: '0.8rem 1.2rem',
+                                display: 'inline-block'
+                              }}
+                            >
+                              Install <a href='https://metamask.io'>Metamask</a> to
+                              buy this ad space.
                           {/* TODO: test if this is moblie and recommend a web3 app for android/iphone (eg trust-wallet)*/}
-                        </h3>
-                      )}
-                      <TokenOverview />
-                    </div>
-                  )}
+                            </h3>
+                          )}
+                        <TokenOverview />
+                      </div>
+                    )}
                 </div>
               </div>
             )}
@@ -215,7 +202,7 @@ class DappWrapper extends Component<any, any> {
     return (
       <UsdPriceProvider>
         <OfflineContainer>
-          <DappConnected displayPurchase={this.props.displayPurchase} tokenId={this.props.tokenId}/>
+          <DappConnected displayPurchase={this.props.displayPurchase} tokenId={this.props.tokenId} />
         </OfflineContainer>
       </UsdPriceProvider>
     );

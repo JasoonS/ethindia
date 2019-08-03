@@ -77,60 +77,39 @@ class Template extends Component<{}, displayPurchaseState> {
 
           </div>
           <div className='Grid-item'>
-            <a href='#'>
-              <img
-                src='https://via.placeholder.com/300'
-                style={{ width: '100%' }}
-              />
-            </a>
+          <TokenIdProvider tokenId={2}>
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={2}/>
+            </TokenIdProvider>
           </div>
           <div className='Grid-item'>
-            <a href='#'>
-              <img
-                src='https://via.placeholder.com/300'
-                style={{ width: '100%' }}
-              />
-            </a>
+          <TokenIdProvider tokenId={3}>
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={3}/>
+            </TokenIdProvider>
           </div>
           <div className='Grid-item'>
-            <a href='#'>
-              <img
-                src='https://via.placeholder.com/300'
-                style={{ width: '100%' }}
-              />
-            </a>
+          <TokenIdProvider tokenId={4}>
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={4}/>
+            </TokenIdProvider>
           </div>
           <div className='Grid-item'>
-            <a href='#'>
-              <img
-                src='https://via.placeholder.com/300'
-                style={{ width: '100%' }}
-              />
-            </a>
+          <TokenIdProvider tokenId={5}>
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={5}/>
+            </TokenIdProvider>
           </div>
           <div className='Grid-item'>
-            <a href='#'>
-              <img
-                src='https://via.placeholder.com/300'
-                style={{ width: '100%' }}
-              />
-            </a>
+          <TokenIdProvider tokenId={6}>
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={6}/>
+            </TokenIdProvider>
           </div>
           <div className='Grid-item'>
-            <a href='#'>
-              <img
-                src='https://via.placeholder.com/300'
-                style={{ width: '100%' }}
-              />
-            </a>
+          <TokenIdProvider tokenId={7}>
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={7}/>
+            </TokenIdProvider>
           </div>
           <div className='Grid-item'>
-            <a href='#'>
-              <img
-                src='https://via.placeholder.com/300'
-                style={{ width: '100%' }}
-              />
-            </a>
+          <TokenIdProvider tokenId={8}>
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={8}/>
+            </TokenIdProvider>
           </div>
         </div>
         <footer>
