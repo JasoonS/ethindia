@@ -1,17 +1,32 @@
 import React, { Component } from "react";
 import Toggle from 'react-toggle'
+import ToggleButton from 'react-toggle-button'
 import Dapp from "./Dapp"
 import About from './About'
 import HowItWorks from './HowItworks';
+import UploadImage from './UploadImage';
 import { TokenIdProvider } from "./TokenIdContext";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 type displayPurchaseState = {
-  displayPurchase: boolean;
+  displayPurchase: boolean,
+  toggle: boolean
 };
 
 class Template extends Component<{}, displayPurchaseState> {
   componentWillMount() {
+    toast.info("Our contracts are bullet proof but our frontend might need a refresh", {
+      position: "top-right",
+      autoClose: 6000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
+    setTimeout(() => {
+      toast.info("We are on the crisp chat below please message us with any questions");
+    }, 6400)
     this.setState({
       displayPurchase: false
     });
@@ -21,11 +36,14 @@ class Template extends Component<{}, displayPurchaseState> {
     return (
       <div>
         <header>
+          <ToastContainer />
           <h1>
 
             These ads are always for sale, purchase the ad space and set your own monthly payment...
             <br /> and even make a profit when someone buys the ad space from you
             </h1>
+
+
           <label>
             <Toggle
               defaultChecked={this.state.displayPurchase}
@@ -33,77 +51,65 @@ class Template extends Component<{}, displayPurchaseState> {
               onChange={() => {
                 this.setState({ displayPurchase: !this.state.displayPurchase })
               }} />
+
             <span>Purchase Ad Space</span>
           </label>
+          <ToggleButton
+            value={this.state.toggle || false}
+            onToggle={() => {
+              this.setState({
+                toggle: !this.state.toggle,
+              })
+            }} />
+
         </header>
 
         <div className="Grid">
           <div className="Grid-item">
             <TokenIdProvider tokenId={0}>
-              <Dapp displayPurchase={this.state.displayPurchase} />
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={0}/>
             </TokenIdProvider>
           </div>
           <div className="Grid-item">
             <TokenIdProvider tokenId={1}>
-              <Dapp displayPurchase={this.state.displayPurchase} />
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={1} />
             </TokenIdProvider>
 
           </div>
           <div className='Grid-item'>
-            <a href='#'>
-              <img
-                src='https://via.placeholder.com/300'
-                style={{ width: '100%' }}
-              />
-            </a>
+          <TokenIdProvider tokenId={2}>
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={2}/>
+            </TokenIdProvider>
           </div>
           <div className='Grid-item'>
-            <a href='#'>
-              <img
-                src='https://via.placeholder.com/300'
-                style={{ width: '100%' }}
-              />
-            </a>
+          <TokenIdProvider tokenId={3}>
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={3}/>
+            </TokenIdProvider>
           </div>
           <div className='Grid-item'>
-            <a href='#'>
-              <img
-                src='https://via.placeholder.com/300'
-                style={{ width: '100%' }}
-              />
-            </a>
+          <TokenIdProvider tokenId={4}>
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={4}/>
+            </TokenIdProvider>
           </div>
           <div className='Grid-item'>
-            <a href='#'>
-              <img
-                src='https://via.placeholder.com/300'
-                style={{ width: '100%' }}
-              />
-            </a>
+          <TokenIdProvider tokenId={5}>
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={5}/>
+            </TokenIdProvider>
           </div>
           <div className='Grid-item'>
-            <a href='#'>
-              <img
-                src='https://via.placeholder.com/300'
-                style={{ width: '100%' }}
-              />
-            </a>
+          <TokenIdProvider tokenId={6}>
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={6}/>
+            </TokenIdProvider>
           </div>
           <div className='Grid-item'>
-            <a href='#'>
-              <img
-                src='https://via.placeholder.com/300'
-                style={{ width: '100%' }}
-              />
-            </a>
+          <TokenIdProvider tokenId={7}>
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={7}/>
+            </TokenIdProvider>
           </div>
           <div className='Grid-item'>
-            <a href='#'>
-              <img
-                src='https://via.placeholder.com/300'
-                style={{ width: '100%' }}
-              />
-            </a>
+          <TokenIdProvider tokenId={8}>
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={8}/>
+            </TokenIdProvider>
           </div>
         </div>
         <footer>
@@ -137,6 +143,8 @@ class Template extends Component<{}, displayPurchaseState> {
             <HowItWorks />
           </div>
         </footer>
+
+        <UploadImage />
       </div>
     );
   }

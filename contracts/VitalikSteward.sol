@@ -20,10 +20,12 @@ contract VitalikSteward {
     
     uint256[numberOfTokens] public price; //in wei
     IERC721Full public assetToken; // ERC721 NFT.
-    
+    string[numberOfTokens] public hashes; //Image hashes IPFS
+    string[numberOfTokens] public urls;
+
     uint256[numberOfTokens] public totalCollected; // all patronage ever collected
-    uint256[numberOfTokens] public currentCollected; // amount currently collected for patron  
-    uint256[numberOfTokens] public timeLastCollected; // 
+    uint256[numberOfTokens] public currentCollected; // amount currently collected for patron
+    uint256[numberOfTokens] public timeLastCollected;
     uint256[numberOfTokens] public deposit;
 
     address payable public organization; // non-profit organization
@@ -34,7 +36,7 @@ contract VitalikSteward {
 
     uint256[numberOfTokens] public timeAcquired;
     
-    // 30% patronage
+    // 1200% patronage
     uint256 patronageNumerator =  12000000000000;
     uint256 patronageDenominator = 1000000000000;
 
@@ -48,13 +50,21 @@ contract VitalikSteward {
         for (uint8 i = 0; i < numberOfTokens; ++i){
           state[i] = StewardState.Foreclosed;
         }
-    } 
+        for (uint8 i = 0; i < numberOfTokens; ++i){
+          hashes[i] = "QmVxsQNfMR5kMUp9atgg3uWbjA4LZkUnz5MFHbK9WnXyHS";
+        }
+        for (uint8 i = 0; i < numberOfTokens; ++i){
+          urls[i] = "https://wildcards.world";
+        }
+    }
 
     event LogBuy(address indexed owner, uint256 indexed price);
     event LogPriceChange(uint256 indexed newPrice);
+    event LogImageChange(string indexed newImage);
+    event LogUrlChange(string indexed newUrl);
     event LogForeclosure(address indexed prevOwner);
     event LogCollection(uint256 indexed collected);
-    
+
     modifier onlyPatron(uint8 tokenIndex) {
         require(msg.sender == assetToken.ownerOf(tokenIndex), "Not patron");
         _;
@@ -179,6 +189,22 @@ contract VitalikSteward {
         
         price[tokenIndex] = _newPrice;
         emit LogPriceChange(price[tokenIndex]);
+    }
+
+    function changeImage(uint8 tokenIndex, string memory _newHash) public onlyPatron(tokenIndex) {
+        require(state[tokenIndex] != StewardState.Foreclosed, "Foreclosed");
+        require(bytes(_newHash).length == 46, "Hash not valid ");
+        
+        hashes[tokenIndex] = _newHash;
+        emit LogImageChange(hashes[tokenIndex]);
+    }
+
+    function changeUrl(uint8 tokenIndex, string memory _newUrl) public onlyPatron(tokenIndex) {
+        require(state[tokenIndex] != StewardState.Foreclosed, "Foreclosed");
+        require(bytes(_newUrl).length < 164, "Url too long. ");
+        
+        urls[tokenIndex] = _newUrl;
+        emit LogUrlChange(urls[tokenIndex]);
     }
     
     function withdrawDeposit(uint8 tokenIndex, uint256 _wei) public onlyPatron(tokenIndex) collectPatronage(tokenIndex) returns (uint256) {
