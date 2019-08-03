@@ -56,7 +56,9 @@ class Dapp extends Component<any,any> {
       <Fragment>
         <OfflineContainer>
           <div className="image-container">
+            <a href='https://wildcards.world'>
             <img src={wildcardsImage} style={{ width: '100%' }} />
+            </a>
             {this.props.displayPurchase &&
               <div className='interaction-button-container'>
                 <div className='interaction-buttons'>
