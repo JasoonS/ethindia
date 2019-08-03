@@ -6,6 +6,7 @@ import { Button, Modal, Card, Box, Heading, Text, Flex, Loader, Input, Radio } f
 import web3ProvideSwitcher from "../web3ProvideSwitcher"
 import TokenOverview from "./TokenOverview"
 import moment from 'moment'
+import { useTokenId } from "./TokenIdContext";
 
 enum ModalState {
   Deposit,
@@ -72,11 +73,13 @@ class BuyModal extends Component<any, any> {
       const contractFunction = this.state.depositState ? 'depositWei' : 'withdrawDeposit'
       currentTxIndex = this.contracts.VitalikSteward.methods[
         contractFunction
-      ].cacheSend({ value: inputValue })
+      ].cacheSend(0, { value: inputValue })
     } else {
+      console.log('here')
       currentTxIndex = this.contracts.VitalikSteward.methods[
         'changePrice'
-      ].cacheSend(inputValue)
+      ].cacheSend(0, inputValue)
+      console.log('there')
     }
     this.setState((state: any, props: any) => ({
       ...state,
@@ -85,14 +88,13 @@ class BuyModal extends Component<any, any> {
   }
 
   componentWillReceiveProps(nextProps: any) {
-    const { transactions, transactionStack } = this.props;
+    const { transactions, transactionStack, tokenId } = this.props;
 
     const didTransactionsChange = transactions !== nextProps.transactions;
     const didTransactionStackChange = transactionStack !== nextProps.transactionStack;
 
-    const depositKey = this.context.drizzle.contracts.VitalikSteward.methods.depositAbleToWithdraw.cacheCall()
+    const depositKey = this.context.drizzle.contracts.VitalikSteward.methods.depositAbleToWithdraw.cacheCall(tokenId)
     const depositObj = nextProps.contracts.VitalikSteward.depositAbleToWithdraw[depositKey]
-
 
     if (!!depositObj && !!depositObj.value) {
       const depositAvailable = this.utils.fromWei(depositObj.value, 'ether')
@@ -349,4 +351,8 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-export default drizzleConnect(BuyModal, mapStateToProps);
+export default (props: any) => {
+  const Component = drizzleConnect(BuyModal, mapStateToProps);
+  const tokenId = useTokenId()
+  return <Component tokenId={tokenId} {...props} />
+}

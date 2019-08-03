@@ -92,7 +92,8 @@ class BuyModal extends Component<any, any> {
     if (this.state.contractFunctions.value) {
       console.log(this.props.contracts.VitalikSteward['price']);
       const artworkPrice = new this.utils.BN(
-        this.props.contracts.VitalikSteward['price']['0x0'].value
+        0
+        // this.props.contracts.VitalikSteward['price']['0x0'].value
       );
       args.value = new this.utils.BN(
         this.utils.toWei(this.state.contractFunctions.value, 'ether')
@@ -101,12 +102,12 @@ class BuyModal extends Component<any, any> {
 
     const currentTxIndex = args
       ? this.contracts.VitalikSteward.methods['buy'].cacheSend(
-          ...convertedInputs,
-          args
-        )
+        ...convertedInputs,
+        args
+      )
       : this.contracts.VitalikSteward.methods['buy'].cacheSend(
-          ...convertedInputs
-        );
+        ...convertedInputs
+      );
 
     this.setState((state: any, props: any) => ({
       ...state,
@@ -231,57 +232,57 @@ class BuyModal extends Component<any, any> {
                     {!txComplete && <Loader color='red' size='80px' />}
                   </Fragment>
                 ) : (
-                  <Fragment>
-                    <Heading.h3>Purchase</Heading.h3>
-                    <Text>Enter the desired values for the transaction.</Text>
-                    <form
-                      className='pure-form pure-form-stacked'
-                      onSubmit={this.handleSubmit}
-                    >
-                      <Input
-                        key='_newPrice'
-                        type='number'
-                        name='_newPrice'
-                        value={this.state.contractFunctions['_newPrice']}
-                        placeholder={'Your Initial Sale Price'}
-                        onChange={this.handleInputChange}
-                        style={{ width: '100%' }}
-                        startAdornment={
-                          <InputAdornment position='start'>ETH</InputAdornment>
-                        }
-                      />
-                      <Fragment>
-                        <br />
+                    <Fragment>
+                      <Heading.h3>Purchase</Heading.h3>
+                      <Text>Enter the desired values for the transaction.</Text>
+                      <form
+                        className='pure-form pure-form-stacked'
+                        onSubmit={this.handleSubmit}
+                      >
                         <Input
-                          key={valueLabel}
+                          key='_newPrice'
                           type='number'
-                          name='value'
-                          value={this.state.contractFunctions[valueLabel]}
-                          placeholder={valueLabel}
+                          name='_newPrice'
+                          value={this.state.contractFunctions['_newPrice']}
+                          placeholder={'Your Initial Sale Price'}
                           onChange={this.handleInputChange}
                           style={{ width: '100%' }}
                           startAdornment={
-                            <InputAdornment position='start'>
-                              ETH
-                            </InputAdornment>
+                            <InputAdornment position='start'>ETH</InputAdornment>
                           }
                         />
-                        <br />
-                        <br />
-                      </Fragment>
-                    </form>
-                    <TokenOverview />
-                  </Fragment>
-                )}
+                        <Fragment>
+                          <br />
+                          <Input
+                            key={valueLabel}
+                            type='number'
+                            name='value'
+                            value={this.state.contractFunctions[valueLabel]}
+                            placeholder={valueLabel}
+                            onChange={this.handleInputChange}
+                            style={{ width: '100%' }}
+                            startAdornment={
+                              <InputAdornment position='start'>
+                                ETH
+                            </InputAdornment>
+                            }
+                          />
+                          <br />
+                          <br />
+                        </Fragment>
+                      </form>
+                      <TokenOverview />
+                    </Fragment>
+                  )}
               </Box>
             ) : (
-              <Box p={4} mb={3}>
-                <Heading.h3>NOTICE</Heading.h3>
-                <Text>
-                  Unable to connect to metamask, so unable to sign transactions.
+                <Box p={4} mb={3}>
+                  <Heading.h3>NOTICE</Heading.h3>
+                  <Text>
+                    Unable to connect to metamask, so unable to sign transactions.
                 </Text>
-              </Box>
-            )}
+                </Box>
+              )}
             {!transactionProcessing && (
               <Flex
                 px={4}

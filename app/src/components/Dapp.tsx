@@ -8,6 +8,7 @@ import { drizzleConnect } from "drizzle-react";
 import PropTypes from "prop-types";
 import web3ProvideSwitcher from "../web3ProvideSwitcher"
 import { UsdPriceProvider } from "./USDPriceContext"
+import { useTokenId } from "./TokenIdContext";
 
 class Dapp extends Component<any, any> {
 
@@ -33,7 +34,8 @@ class Dapp extends Component<any, any> {
   }
 
   async componentWillReceiveProps(nextProps: any) {
-    const tokenOwnerKey = this.context.drizzle.contracts.ERC721Full.methods.ownerOf.cacheCall(42)
+    const { tokenId } = nextProps
+    const tokenOwnerKey = this.context.drizzle.contracts.ERC721Full.methods.ownerOf.cacheCall(tokenId)
     const tokenOwnerObj = nextProps.contracts['ERC721Full']['ownerOf'][tokenOwnerKey]
 
     if (!!tokenOwnerObj && !!tokenOwnerObj.value && this.state.tokenOwner !== tokenOwnerObj.value) {
@@ -50,12 +52,14 @@ class Dapp extends Component<any, any> {
     const showDapp = web3ProvideSwitcher.providerInjected
     const showBuy = true
 
+    console.log({ showDapp })
+
     return (
       <Fragment>
         <OfflineContainer>
           {(tokenOwner === accounts[0]) ?
             < div>
-              <img src={wildcardsImage} style={{ width: '100%'}} />
+              <img src={wildcardsImage} style={{ width: '100%' }} />
               {showBuy &&
                 <div>
                   <Fragment>
@@ -70,9 +74,9 @@ class Dapp extends Component<any, any> {
               <div>
                 <div>
                   <div>
-                    <img src={wildcardsImage} style={{ width: '100%'}} />
+                    <img src={wildcardsImage} style={{ width: '100%' }} />
                     <div>
-                      <div>
+                      <div >
                         {showDapp ?
                           <BuyModal />
                           :
@@ -102,7 +106,11 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-const DappConnected = drizzleConnect(Dapp, mapStateToProps)
+const DappConnected = (props: any) => {
+  const Component = drizzleConnect(Dapp, mapStateToProps)
+  const tokenId = useTokenId()
+  return <Component tokenId={tokenId} {...props} />
+}
 
 class DappWrapper extends Component<any, any> {
   constructor(props: any, context: any) {
@@ -121,4 +129,3 @@ class DappWrapper extends Component<any, any> {
 }
 
 export default DappWrapper
-

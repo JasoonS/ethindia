@@ -6,6 +6,7 @@ import moment from 'moment';
 import ContractData from './ContractData';
 
 import { getUSDValue } from '../Actions';
+import { useTokenId } from './TokenIdContext';
 
 class PriceSection extends Component<{ contracts: any }> {
   utils: any;
@@ -21,16 +22,13 @@ class PriceSection extends Component<{ contracts: any }> {
     super(props);
     this.utils = context.drizzle.web3.utils;
     this.contracts = context.drizzle.contracts;
+    const { tokenId } = props
     this.state = {
       USD: -1,
-      artworkPriceKey: context.drizzle.contracts.VitalikSteward.methods.price.cacheCall(
-        0
-      ),
+      artworkPriceKey: context.drizzle.contracts.VitalikSteward.methods.price.cacheCall(tokenId),
       patron: null,
-      patronKey: context.drizzle.contracts.ERC721Full.methods.ownerOf.cacheCall(
-        42
-      ),
-      timeAcquiredKey: context.drizzle.contracts.VitalikSteward.methods.timeAcquired.cacheCall(),
+      patronKey: context.drizzle.contracts.ERC721Full.methods.ownerOf.cacheCall(tokenId),
+      timeAcquiredKey: context.drizzle.contracts.VitalikSteward.methods.timeAcquired.cacheCall(tokenId),
       timeHeldKey: null,
       currentTimeHeld: 0,
       currentTimeHeldHumanized: ''
@@ -75,8 +73,9 @@ class PriceSection extends Component<{ contracts: any }> {
 
   async updatePatron(props: any) {
     const patron = this.getPatron(props);
+    const { tokenId } = props
     // update timeHeldKey IF owner updated
-    const timeHeldKey = this.contracts.VitalikSteward.methods.timeHeld.cacheCall(
+    const timeHeldKey = this.contracts.VitalikSteward.methods.timeHeld.cacheCall(tokenId,
       patron
     );
     this.setState({
@@ -122,9 +121,9 @@ class PriceSection extends Component<{ contracts: any }> {
     /* todo: fetch new exchange rate? */
     if (
       this.state.artworkPriceKey in
-        this.props.contracts['VitalikSteward']['price'] &&
+      this.props.contracts['VitalikSteward']['price'] &&
       this.state.artworkPriceKey in
-        nextProps.contracts['VitalikSteward']['price']
+      nextProps.contracts['VitalikSteward']['price']
     ) {
       if (
         !this.getArtworkPrice(this.props).eq(this.getArtworkPrice(nextProps)) ||
@@ -136,13 +135,13 @@ class PriceSection extends Component<{ contracts: any }> {
 
     if (
       this.state.timeHeldKey in
-        this.props.contracts['VitalikSteward']['timeHeld'] &&
+      this.props.contracts['VitalikSteward']['timeHeld'] &&
       this.state.timeHeldKey in
-        nextProps.contracts['VitalikSteward']['timeHeld']
+      nextProps.contracts['VitalikSteward']['timeHeld']
     ) {
       if (
         this.getTimeHeld(this.props, this.state.timeHeldKey) !==
-          this.getTimeHeld(nextProps, this.state.timeHeldKey) ||
+        this.getTimeHeld(nextProps, this.state.timeHeldKey) ||
         this.state.currentTimeHeld === 0
       ) {
         this.updateTimeHeld(nextProps, this.state.timeHeldKey);
@@ -182,6 +181,11 @@ const mapStateToProps = (state: any) => {
     drizzleStatus: state.drizzleStatus,
     web3: state.web3
   };
-};
+}
 
-export default drizzleConnect(PriceSection, mapStateToProps);
+
+export default (props: any) => {
+  const Component = drizzleConnect(PriceSection, mapStateToProps);
+  const tokenId = useTokenId()
+  return <Component tokenId={tokenId} {...props} />
+}

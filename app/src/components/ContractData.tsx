@@ -2,6 +2,7 @@ import { drizzleConnect } from "drizzle-react";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
+import { useTokenId } from "./TokenIdContext";
 
 class ContractData extends Component<{
   contracts: any, methodArgs: any, method: any, contract: any, toUtf8: any
@@ -26,17 +27,19 @@ class ContractData extends Component<{
 
     this.utils = context.drizzle.web3.utils;
     this.contracts = context.drizzle.contracts;
+
+    const tokenId = props.tokenId
     this.state = {
       dataKey: this.contracts[this.props.contract].methods[
         this.props.method
-      ].cacheCall(...methodArgs),
+      ].cacheCall(tokenId, ...methodArgs),
     };
   }
 
   // Will not fix legacy component
   // eslint-disable-next-line react/no-deprecated
   componentWillReceiveProps(nextProps: any) {
-    const { methodArgs, contract, method } = this.props;
+    const { methodArgs, contract, method, tokenId } = nextProps;
 
     const didContractChange = contract !== nextProps.contract;
     const didMethodChange = method !== nextProps.method;
@@ -47,7 +50,7 @@ class ContractData extends Component<{
       this.setState({
         dataKey: this.contracts[nextProps.contract].methods[
           nextProps.method
-        ].cacheCall(...nextProps.methodArgs),
+        ].cacheCall(tokenId, ...nextProps.methodArgs),
       });
     }
   }
@@ -161,4 +164,9 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default drizzleConnect(ContractData, mapStateToProps);
+export default (props: any) => {
+  const Component = drizzleConnect(ContractData, mapStateToProps);
+  const tokenId = useTokenId()
+  return <Component tokenId={tokenId} {...props} />
+}
+
