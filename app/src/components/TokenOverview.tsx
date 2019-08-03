@@ -6,6 +6,7 @@ import { Tooltip } from 'rimble-ui'
 import ContractData from "./ContractData";
 import Countdown from "./Countdown"
 import { useUsdPrice } from "./USDPriceContext"
+import { connectTokenId } from "./TokenIdContext";
 
 declare global {
   interface Window { ethereum: any; }
@@ -124,27 +125,38 @@ class ActionSection extends Component<{ contracts: any }, {}>  {
     super(props, context)
     this.utils = context.drizzle.web3.utils;
     this.contracts = context.drizzle.contracts;
+
+    this.getTotalCollected = this.getTotalCollected.bind(this)
+    this.getPatronageOwed = this.getPatronageOwed.bind(this)
+    this.getVitalikPriceEth = this.getVitalikPriceEth.bind(this)
+    const { tokenId } = props
     this.state = {
-      patronageOwedKey: context.drizzle.contracts.VitalikSteward.methods.patronageOwed.cacheCall(),
-      totalCollectedKey: context.drizzle.contracts.VitalikSteward.methods.totalCollected.cacheCall(),
+      patronageOwedKey: context.drizzle.contracts.VitalikSteward.methods.patronageOwed.cacheCall(tokenId),
+      totalCollectedKey: context.drizzle.contracts.VitalikSteward.methods.totalCollected.cacheCall(tokenId),
+      patronageOwed: "-1",
+      combinedCollected: "-1",
+      foreclosureTime: "N/A",
+      vitalikPrice: "-1",
+    };
+    this.state = {
+      ...this.state,
       patronageOwed: this.getPatronageOwed(props),
       combinedCollected: this.getCombinedCellected(props),
-      foreclosureTime: "N/A",
       vitalikPrice: this.getVitalikPriceEth(props),
     };
   }
 
   getTotalCollected(props: any) {
-    if (props.contracts['VitalikSteward'].initialized && !!props.contracts['VitalikSteward']['totalCollected']['0x0'])
-      return new this.utils.BN(props.contracts['VitalikSteward']['totalCollected']['0x0'].value);
+    if (props.contracts['VitalikSteward'].initialized && !!props.contracts['VitalikSteward']['totalCollected'][this.state.totalCollectedKey])
+      return new this.utils.BN(props.contracts['VitalikSteward']['totalCollected'][this.state.totalCollectedKey].value);
 
     return "-1"
   }
 
 
   getPatronageOwed(props: any) {
-    if (props.contracts['VitalikSteward'].initialized && !!props.contracts['VitalikSteward']['patronageOwed']['0x0'])
-      return new this.utils.BN(props.contracts['VitalikSteward']['patronageOwed']['0x0'].value);
+    if (props.contracts['VitalikSteward'].initialized && !!props.contracts['VitalikSteward']['patronageOwed'][this.state.patronageOwedKey])
+      return new this.utils.BN(props.contracts['VitalikSteward']['patronageOwed'][this.state.patronageOwedKey].value);
 
     return "-1"
   }
@@ -195,7 +207,9 @@ class ActionSection extends Component<{ contracts: any }, {}>  {
       && this.state.patronageOwedKey in nextProps.contracts['VitalikSteward']['patronageOwed']
       && this.state.totalCollectedKey in this.props.contracts['VitalikSteward']['totalCollected']
       && this.state.totalCollectedKey in nextProps.contracts['VitalikSteward']['totalCollected']) {
-      if (!this.getPatronageOwed(this.props).eq(this.getPatronageOwed(nextProps)) || this.state.combinedCollected === "-1") {
+      const ownedNow = this.getPatronageOwed(this.props)
+      const ownedNext = this.getPatronageOwed(nextProps)
+      if (ownedNow === "-1" || ownedNext === "-1" || !ownedNow.eq(ownedNext) || this.state.combinedCollected === "-1") {
         this.updateCombineCollected(nextProps);
       }
     }
@@ -220,4 +234,5 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default drizzleConnect(ActionSection, mapStateToProps);
+export default connectTokenId(drizzleConnect(ActionSection, mapStateToProps))
+
