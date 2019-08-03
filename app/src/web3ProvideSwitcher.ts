@@ -10,10 +10,8 @@ const getInjectedWeb3 = async (): Promise<{ provider: any, providerInjected: boo
       return { provider: ethereum, providerInjected: true }
     } catch (error) {
       // User denied account access...
-      console.log(error)
     }
   } else if (typeof (<any>window).web3 !== 'undefined') {
-    console.log('we have the window web3')
     // Checking if Web3 has been injected by the browser (Mist/MetaMask)
     // Use Mist/MetaMask's provider.
     const { currentProvider } = new Web3((<any>window).web3.currentProvider)

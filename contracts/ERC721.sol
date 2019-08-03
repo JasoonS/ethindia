@@ -91,7 +91,7 @@ contract ERC721 is ERC165, IERC721 {
 
         _tokenApprovals[tokenId] = to;
         emit Approval(owner, to, tokenId);
-    } 
+    }
 
     /**
      * @dev Gets the approved address for a token ID, or zero if no address set

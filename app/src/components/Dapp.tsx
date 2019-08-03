@@ -8,9 +8,10 @@ import { drizzleConnect } from "drizzle-react";
 import PropTypes from "prop-types";
 import web3ProvideSwitcher from "../web3ProvideSwitcher"
 import { UsdPriceProvider } from "./USDPriceContext"
+import { connectTokenId } from "./TokenIdContext";
 
 
-class Dapp extends Component<any,any> {
+class Dapp extends Component<any, any> {
 
   contracts: any
   utils: any
@@ -29,12 +30,13 @@ class Dapp extends Component<any,any> {
     this.contracts = context.drizzle.contracts;
     this.utils = context.drizzle.web3.utils;
     this.context = context
-    
+
     this.state = { tokenOwner: '' }
   }
 
   async componentWillReceiveProps(nextProps: any) {
-    const tokenOwnerKey = this.context.drizzle.contracts.ERC721Full.methods.ownerOf.cacheCall(42)
+    const { tokenId } = nextProps
+    const tokenOwnerKey = this.context.drizzle.contracts.ERC721Full.methods.ownerOf.cacheCall(tokenId)
     const tokenOwnerObj = nextProps.contracts['ERC721Full']['ownerOf'][tokenOwnerKey]
 
     if (!!tokenOwnerObj && !!tokenOwnerObj.value && this.state.tokenOwner !== tokenOwnerObj.value) {
@@ -52,12 +54,14 @@ class Dapp extends Component<any,any> {
     const showInteracting = true
     const isTokenOwner = tokenOwner === accounts[0]
 
+    console.log({ tokenOwner })
+
     return (
       <Fragment>
         <OfflineContainer>
           <div className="image-container">
-            <a href='https://wildcards.world'>
-            <img src={wildcardsImage} style={{ width: '100%' }} />
+            <a href='https://wildcards.world?ref=alwaysforsale'>
+              <img src={wildcardsImage} style={{ width: '100%' }} />
             </a>
             {this.props.displayPurchase &&
               <div className='interaction-button-container'>
@@ -100,7 +104,7 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-const DappConnected = drizzleConnect(Dapp, mapStateToProps)
+const DappConnected = connectTokenId(drizzleConnect(Dapp, mapStateToProps))
 
 class DappWrapper extends Component<any, any> {
   constructor(props: any, context: any) {
@@ -111,7 +115,7 @@ class DappWrapper extends Component<any, any> {
     return (
       <UsdPriceProvider>
         <OfflineContainer>
-          <DappConnected displayPurchase={this.props.displayPurchase}/>
+          <DappConnected displayPurchase={this.props.displayPurchase} />
         </OfflineContainer>
       </UsdPriceProvider >
     )
@@ -119,4 +123,3 @@ class DappWrapper extends Component<any, any> {
 }
 
 export default DappWrapper
-

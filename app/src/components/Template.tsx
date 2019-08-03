@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
-import Toggle from 'react-toggle';
-import Dapp from './Dapp';
-import About from './About';
+import React, { Component } from "react";
+import Toggle from 'react-toggle'
+import Dapp from "./Dapp"
+import About from './About'
 import HowItWorks from './HowItworks';
+import { TokenIdProvider } from "./TokenIdContext";
+
 
 type displayPurchaseState = {
   displayPurchase: boolean;
@@ -20,12 +22,11 @@ class Template extends Component<{}, displayPurchaseState> {
       <div>
         <header>
           <h1>
-            These ads are always for sale, purchase the ad space and set your
-            own monthly payment...
-            <br /> and even make a profit when someone buys the ad space from
-            you
-          </h1>
-          {/* <label>
+
+            These ads are always for sale, purchase the ad space and set your own monthly payment...
+            <br /> and even make a profit when someone buys the ad space from you
+            </h1>
+          <label>
             <Toggle
               defaultChecked={this.state.displayPurchase}
               icons={false}
@@ -33,19 +34,20 @@ class Template extends Component<{}, displayPurchaseState> {
                 this.setState({ displayPurchase: !this.state.displayPurchase })
               }} />
             <span>Purchase Ad Space</span>
-          </label> */}
+          </label>
         </header>
-        <div className='Grid'>
-          <div className='Grid-item'>
-            <Dapp displayPurchase={this.state.displayPurchase} />
+
+        <div className="Grid">
+          <div className="Grid-item">
+            <TokenIdProvider tokenId={0}>
+              <Dapp displayPurchase={this.state.displayPurchase} />
+            </TokenIdProvider>
           </div>
-          <div className='Grid-item'>
-            <a href='#'>
-              <img
-                src='https://via.placeholder.com/300'
-                style={{ width: '100%' }}
-              />
-            </a>
+          <div className="Grid-item">
+            <TokenIdProvider tokenId={1}>
+              <Dapp displayPurchase={this.state.displayPurchase} />
+            </TokenIdProvider>
+
           </div>
           <div className='Grid-item'>
             <a href='#'>

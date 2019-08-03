@@ -28,7 +28,7 @@ class About extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Button onClick={this.openModal}>About</Button>
+                <Button onClick={this.openModal} mainColor='#7A7A7A' size="small" className='information-button'>About</Button>
 
                 <Modal isOpen={this.state.isOpen}>
                     <Card width={"60vw"} p={0}>
@@ -53,7 +53,7 @@ class About extends React.Component {
                                 <p>
                                     1. To generate funds for wildlife conservation. How? We created a
                                     project called wildcards.world at the #ETHCapeTown2019 hackathon to
-                                    raise funds for wildlife conservation. Subsequently, we have got into a
+                                    raise funds for wildlife conservation. Subsequently, we were accepted into a
                                     6 month blockchain incubator in Paris to accelerate the developement of
                                     this platform. The funds generated from our #ETHIndia 'always for sale
                                     adspace' will provide funding for us to develop our <a href='https://wildcards.world'>wildcards</a> project and
@@ -90,7 +90,7 @@ class About extends React.Component {
                             borderColor={"#E8E8E8"}
                             justifyContent={"flex-end"}
                         >
-                            <Button.Outline onClick={this.closeModal}>Close</Button.Outline>
+                            <Button.Outline onClick={this.closeModal} mainColor='#7A7A7A' size="small">Close</Button.Outline>
                         </Flex>
                     </Card>
                 </Modal>
