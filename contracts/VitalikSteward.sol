@@ -49,7 +49,10 @@ contract VitalikSteward {
         for (uint8 i = 0; i < numberOfTokens; ++i){
           state[i] = StewardState.Foreclosed;
         }
-    } 
+        for (uint8 i = 0; i < numberOfTokens; ++i){
+          hashes[i] = "QmaBHAc5mREqhmTLSCaNgpZFBR431rqikv7ezz6pyha3FU";
+        }
+    }
 
     event LogBuy(address indexed owner, uint256 indexed price);
     event LogPriceChange(uint256 indexed newPrice);
