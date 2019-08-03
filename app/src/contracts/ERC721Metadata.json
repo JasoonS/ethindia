@@ -373,9 +373,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.5.0;\n\nimport \"./ERC721.sol\";\nimport \"./interfaces/IERC721Metadata.sol\";\nimport \"./ERC165.sol\";\n\ncontract ERC721Metadata is ERC165, ERC721, IERC721Metadata {\n    // Token name\n    string private _name;\n\n    // Token symbol\n    string private _symbol;\n\n    // Optional mapping for token URIs\n    mapping(uint256 => string) private _tokenURIs;\n\n    bytes4 private constant _INTERFACE_ID_ERC721_METADATA = 0x5b5e139f;\n    /*\n     * 0x5b5e139f ===\n     *     bytes4(keccak256('name()')) ^\n     *     bytes4(keccak256('symbol()')) ^\n     *     bytes4(keccak256('tokenURI(uint256)'))\n     */\n\n    /**\n     * @dev Constructor function\n     */\n    constructor (string memory name, string memory symbol) public {\n        _name = name;\n        _symbol = symbol;\n\n        // register the supported interfaces to conform to ERC721 via ERC165\n        _registerInterface(_INTERFACE_ID_ERC721_METADATA);\n    }\n\n    /**\n     * @dev Gets the token name\n     * @return string representing the token name\n     */\n    function name() external view returns (string memory) {\n        return _name;\n    }\n\n    /**\n     * @dev Gets the token symbol\n     * @return string representing the token symbol\n     */\n    function symbol() external view returns (string memory) {\n        return _symbol;\n    }\n\n    /**\n     * @dev Returns an URI for a given token ID\n     * Throws if the token ID does not exist. May return an empty string.\n     * @param tokenId uint256 ID of the token to query\n     */\n    function tokenURI(uint256 tokenId) external view returns (string memory) {\n        require(_exists(tokenId));\n        return _tokenURIs[tokenId];\n    }\n\n    /**\n     * @dev Internal function to set the token URI for a given token\n     * Reverts if the token ID does not exist\n     * @param tokenId uint256 ID of the token to set its URI\n     * @param uri string URI to assign\n     */\n    function _setTokenURI(uint256 tokenId, string memory uri) internal {\n        require(_exists(tokenId));\n        _tokenURIs[tokenId] = uri;\n    }\n\n    /**\n     * @dev Internal function to burn a specific token\n     * Reverts if the token does not exist\n     * Deprecated, use _burn(uint256) instead\n     * @param owner owner of the token to burn\n     * @param tokenId uint256 ID of the token being burned by the msg.sender\n     */\n    function _burn(address owner, uint256 tokenId) internal {\n        super._burn(owner, tokenId);\n\n        // Clear metadata (if any)\n        if (bytes(_tokenURIs[tokenId]).length != 0) {\n            delete _tokenURIs[tokenId];\n        }\n    }\n}",
-  "sourcePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/ERC721Metadata.sol",
+  "sourcePath": "/Users/johanthan/Code/ethindia/contracts/ERC721Metadata.sol",
   "ast": {
-    "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/ERC721Metadata.sol",
+    "absolutePath": "/Users/johanthan/Code/ethindia/contracts/ERC721Metadata.sol",
     "exportedSymbols": {
       "ERC721Metadata": [
         1114
@@ -396,7 +396,7 @@
         "src": "0:23:4"
       },
       {
-        "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/ERC721.sol",
+        "absolutePath": "/Users/johanthan/Code/ethindia/contracts/ERC721.sol",
         "file": "./ERC721.sol",
         "id": 990,
         "nodeType": "ImportDirective",
@@ -407,18 +407,18 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/interfaces/IERC721Metadata.sol",
+        "absolutePath": "/Users/johanthan/Code/ethindia/contracts/interfaces/IERC721Metadata.sol",
         "file": "./interfaces/IERC721Metadata.sol",
         "id": 991,
         "nodeType": "ImportDirective",
         "scope": 1115,
-        "sourceUnit": 2261,
+        "sourceUnit": 2330,
         "src": "48:42:4",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/ERC165.sol",
+        "absolutePath": "/Users/johanthan/Code/ethindia/contracts/ERC165.sol",
         "file": "./ERC165.sol",
         "id": 992,
         "nodeType": "ImportDirective",
@@ -473,10 +473,10 @@
               "id": 997,
               "name": "IERC721Metadata",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2260,
+              "referencedDeclaration": 2329,
               "src": "158:15:4",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IERC721Metadata_$2260",
+                "typeIdentifier": "t_contract$_IERC721Metadata_$2329",
                 "typeString": "contract IERC721Metadata"
               }
             },
@@ -488,9 +488,9 @@
         "contractDependencies": [
           50,
           583,
-          2088,
-          2198,
-          2260
+          2157,
+          2267,
+          2329
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -498,11 +498,11 @@
         "id": 1114,
         "linearizedBaseContracts": [
           1114,
-          2260,
+          2329,
           583,
-          2198,
+          2267,
           50,
-          2088
+          2157
         ],
         "name": "ERC721Metadata",
         "nodeType": "ContractDefinition",
@@ -955,7 +955,7 @@
             "scope": 1114,
             "src": "1016:83:4",
             "stateMutability": "view",
-            "superFunction": 2247,
+            "superFunction": 2316,
             "visibility": "external"
           },
           {
@@ -1034,7 +1034,7 @@
             "scope": 1114,
             "src": "1207:87:4",
             "stateMutability": "view",
-            "superFunction": 2252,
+            "superFunction": 2321,
             "visibility": "external"
           },
           {
@@ -1108,10 +1108,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2490,
-                        2491
+                        2559,
+                        2560
                       ],
-                      "referencedDeclaration": 2490,
+                      "referencedDeclaration": 2559,
                       "src": "1576:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1260,7 +1260,7 @@
             "scope": 1114,
             "src": "1493:151:4",
             "stateMutability": "view",
-            "superFunction": 2259,
+            "superFunction": 2328,
             "visibility": "external"
           },
           {
@@ -1334,10 +1334,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2490,
-                        2491
+                        2559,
+                        2560
                       ],
-                      "referencedDeclaration": 2490,
+                      "referencedDeclaration": 2559,
                       "src": "1958:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1569,7 +1569,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2523,
+                        "referencedDeclaration": 2592,
                         "src": "2381:5:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_ERC721Metadata_$1114",
@@ -1902,7 +1902,7 @@
     "src": "0:2557:4"
   },
   "legacyAST": {
-    "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/ERC721Metadata.sol",
+    "absolutePath": "/Users/johanthan/Code/ethindia/contracts/ERC721Metadata.sol",
     "exportedSymbols": {
       "ERC721Metadata": [
         1114
@@ -1923,7 +1923,7 @@
         "src": "0:23:4"
       },
       {
-        "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/ERC721.sol",
+        "absolutePath": "/Users/johanthan/Code/ethindia/contracts/ERC721.sol",
         "file": "./ERC721.sol",
         "id": 990,
         "nodeType": "ImportDirective",
@@ -1934,18 +1934,18 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/interfaces/IERC721Metadata.sol",
+        "absolutePath": "/Users/johanthan/Code/ethindia/contracts/interfaces/IERC721Metadata.sol",
         "file": "./interfaces/IERC721Metadata.sol",
         "id": 991,
         "nodeType": "ImportDirective",
         "scope": 1115,
-        "sourceUnit": 2261,
+        "sourceUnit": 2330,
         "src": "48:42:4",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/ERC165.sol",
+        "absolutePath": "/Users/johanthan/Code/ethindia/contracts/ERC165.sol",
         "file": "./ERC165.sol",
         "id": 992,
         "nodeType": "ImportDirective",
@@ -2000,10 +2000,10 @@
               "id": 997,
               "name": "IERC721Metadata",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2260,
+              "referencedDeclaration": 2329,
               "src": "158:15:4",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IERC721Metadata_$2260",
+                "typeIdentifier": "t_contract$_IERC721Metadata_$2329",
                 "typeString": "contract IERC721Metadata"
               }
             },
@@ -2015,9 +2015,9 @@
         "contractDependencies": [
           50,
           583,
-          2088,
-          2198,
-          2260
+          2157,
+          2267,
+          2329
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -2025,11 +2025,11 @@
         "id": 1114,
         "linearizedBaseContracts": [
           1114,
-          2260,
+          2329,
           583,
-          2198,
+          2267,
           50,
-          2088
+          2157
         ],
         "name": "ERC721Metadata",
         "nodeType": "ContractDefinition",
@@ -2482,7 +2482,7 @@
             "scope": 1114,
             "src": "1016:83:4",
             "stateMutability": "view",
-            "superFunction": 2247,
+            "superFunction": 2316,
             "visibility": "external"
           },
           {
@@ -2561,7 +2561,7 @@
             "scope": 1114,
             "src": "1207:87:4",
             "stateMutability": "view",
-            "superFunction": 2252,
+            "superFunction": 2321,
             "visibility": "external"
           },
           {
@@ -2635,10 +2635,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2490,
-                        2491
+                        2559,
+                        2560
                       ],
-                      "referencedDeclaration": 2490,
+                      "referencedDeclaration": 2559,
                       "src": "1576:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -2787,7 +2787,7 @@
             "scope": 1114,
             "src": "1493:151:4",
             "stateMutability": "view",
-            "superFunction": 2259,
+            "superFunction": 2328,
             "visibility": "external"
           },
           {
@@ -2861,10 +2861,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2490,
-                        2491
+                        2559,
+                        2560
                       ],
-                      "referencedDeclaration": 2490,
+                      "referencedDeclaration": 2559,
                       "src": "1958:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -3096,7 +3096,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2523,
+                        "referencedDeclaration": 2592,
                         "src": "2381:5:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_ERC721Metadata_$1114",
@@ -3434,7 +3434,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.6",
-  "updatedAt": "2019-08-03T18:32:53.950Z",
+  "updatedAt": "2019-08-03T21:07:45.369Z",
   "devdoc": {
     "methods": {
       "approve(address,uint256)": {
