@@ -150,7 +150,7 @@ class Dapp extends Component<any, any> {
                     <div>
                       <Fragment>
                         <UpdateModal />
-                        <TokenOverview />
+                        {/* <TokenOverview /> */}
                       </Fragment>
                     </div>
                   ) : (

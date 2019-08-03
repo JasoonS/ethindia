@@ -510,7 +510,11 @@
   },
   "networks": {},
   "schemaVersion": "3.0.6",
+<<<<<<< Updated upstream
   "updatedAt": "2019-08-03T18:32:53.968Z",
+=======
+  "updatedAt": "2019-08-03T23:30:23.419Z",
+>>>>>>> Stashed changes
   "devdoc": {
     "methods": {}
   },

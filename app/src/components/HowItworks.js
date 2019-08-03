@@ -28,7 +28,7 @@ class HowItWorks extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Button onClick={this.openModal}>How it works?</Button>
+        <Button onClick={this.openModal} mainColor='#7A7A7A' size="small">How it works?</Button>
 
         <Modal isOpen={this.state.isOpen}>
           <Card width={'60vw'} p={0}>
@@ -87,7 +87,7 @@ class HowItWorks extends React.Component {
               borderColor={'#E8E8E8'}
               justifyContent={'flex-end'}
             >
-              <Button.Outline onClick={this.closeModal}>Close</Button.Outline>
+              <Button.Outline mainColor='#7A7A7A' size="small" onClick={this.closeModal}>Close</Button.Outline>
             </Flex>
           </Card>
         </Modal>

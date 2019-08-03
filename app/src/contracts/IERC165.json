@@ -278,7 +278,11 @@
   },
   "networks": {},
   "schemaVersion": "3.0.6",
+<<<<<<< Updated upstream
   "updatedAt": "2019-08-03T18:32:53.964Z",
+=======
+  "updatedAt": "2019-08-03T23:30:23.413Z",
+>>>>>>> Stashed changes
   "devdoc": {
     "details": "https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md",
     "methods": {

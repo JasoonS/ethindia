@@ -2182,12 +2182,16 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xED6F484B93F82F199B7496942c3Cf9B61911D5d1",
-      "transactionHash": "0x9be7b78ba168017abe9e57a6759bd8b774b14d5dc944253df59d3d113812edff"
+      "address": "0x24956199762a4E761419d04b3552B3E49aF38CA9",
+      "transactionHash": "0x1540f7da41260344677efccec5b04b1c2ff13b35c875946cbd16ae9dc6ab5867"
     }
   },
   "schemaVersion": "3.0.6",
+<<<<<<< Updated upstream
   "updatedAt": "2019-08-03T18:33:00.711Z",
+=======
+  "updatedAt": "2019-08-03T23:30:32.469Z",
+>>>>>>> Stashed changes
   "devdoc": {
     "details": "see https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md",
     "methods": {

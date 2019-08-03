@@ -1382,12 +1382,16 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xD69eBdb6b6e91071380889625415A016D490e761",
-      "transactionHash": "0x689e79ec70780cac8fd27db03afedbd5c63c379fdbc3e25af4ad2479a70a387c"
+      "address": "0xdDc8C9b1871343CD4aC88c9560D4a80E3D1406D3",
+      "transactionHash": "0xafa381feb81b900266a948c847d4cb6c02894cf9e6c1f1509415a7fb6bf7ae53"
     }
   },
   "schemaVersion": "3.0.6",
+<<<<<<< Updated upstream
   "updatedAt": "2019-08-03T18:33:00.719Z",
+=======
+  "updatedAt": "2019-08-03T23:30:32.476Z",
+>>>>>>> Stashed changes
   "devdoc": {
     "methods": {}
   },

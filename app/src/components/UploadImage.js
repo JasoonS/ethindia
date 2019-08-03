@@ -69,11 +69,6 @@ node.once('ready', () => {
                               encType="multipart/form-data" 
                               required/>
 
-                {
-                    // console.log(this.state.pictures)
-                        // console.log('this.state.image')
-                         console.log(this.state.image) 
-                        }
             </div>
         );
     }

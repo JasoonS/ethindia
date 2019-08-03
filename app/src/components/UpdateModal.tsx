@@ -322,7 +322,7 @@ class BuyModal extends Component<any, any> {
               {(!transactionProcessing) && <Flex px={4} py={3} borderTop={1} borderColor={'#E8E8E8'} justifyContent={'flex-end'}>
                 {/* <Button.Outline>Cancel</Button.Outline> In the future this could be for resetting the values or something*/}
                 <Button
-                  mainColor="#6bad3e"
+                  mainColor='#7A7A7A' size="small"
                   ml={3}
                   onClick={this.handleSubmit}
                 >Update</Button>
@@ -388,7 +388,7 @@ class BuyModal extends Component<any, any> {
             {(!transactionProcessing) && <Flex px={4} py={3} borderTop={1} borderColor={'#E8E8E8'} justifyContent={'flex-end'}>
               {/* <Button.Outline>Cancel</Button.Outline> In the future this could be for resetting the values or something*/}
               <Button
-                mainColor="#6bad3e"
+               mainColor='#7A7A7A' size="small"
                 ml={3}
                 onClick={this.handleSubmit}
               >{this.state.depositState ? 'Add' : 'Withdraw'}</Button>
@@ -442,7 +442,7 @@ class BuyModal extends Component<any, any> {
             {(!transactionProcessing) && <Flex px={4} py={3} borderTop={1} borderColor={'#E8E8E8'} justifyContent={'flex-end'}>
               {/* <Button.Outline>Cancel</Button.Outline> In the future this could be for resetting the values or something*/}
               <Button
-                mainColor="#6bad3e"
+               mainColor='#7A7A7A' size="small"
                 ml={3}
                 onClick={this.handleSubmit}
               >{this.state.depositState ? 'Add' : 'Withdraw'}</Button>
@@ -506,7 +506,7 @@ class BuyModal extends Component<any, any> {
             {(!transactionProcessing) && <Flex px={4} py={3} borderTop={1} borderColor={'#E8E8E8'} justifyContent={'flex-end'}>
               {/* <Button.Outline>Cancel</Button.Outline> In the future this could be for resetting the values or something*/}
               <Button
-                mainColor="#6bad3e"
+                mainColor='#7A7A7A' size="small"
                 ml={3}
                 onClick={this.handleSubmitOfWebsite}
               >Update Website Url</Button>

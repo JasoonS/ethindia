@@ -4,7 +4,6 @@ import ToggleButton from 'react-toggle-button'
 import Dapp from "./Dapp"
 import About from './About'
 import HowItWorks from './HowItworks';
-import UploadImage from './UploadImage';
 import { TokenIdProvider } from "./TokenIdContext";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -44,23 +43,23 @@ class Template extends Component<{}, displayPurchaseState> {
             </h1>
 
 
+          <ToggleButton
+            value={this.state.displayPurchase || false}
+            onToggle={() => {
+              this.setState({
+                displayPurchase: !this.state.displayPurchase,
+              })
+            }} />          
           <label>
-            <Toggle
-              defaultChecked={this.state.displayPurchase}
-              icons={false}
-              onChange={() => {
-                this.setState({ displayPurchase: !this.state.displayPurchase })
-              }} />
-
             <span>Purchase Ad Space</span>
           </label>
-          <ToggleButton
+          {/* <ToggleButton
             value={this.state.toggle || false}
             onToggle={() => {
               this.setState({
                 toggle: !this.state.toggle,
               })
-            }} />
+            }} /> */}
 
         </header>
 
@@ -143,8 +142,6 @@ class Template extends Component<{}, displayPurchaseState> {
             <HowItWorks />
           </div>
         </footer>
-
-        <UploadImage />
       </div>
     );
   }

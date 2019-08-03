@@ -3276,7 +3276,11 @@
   },
   "networks": {},
   "schemaVersion": "3.0.6",
+<<<<<<< Updated upstream
   "updatedAt": "2019-08-03T18:32:53.970Z",
+=======
+  "updatedAt": "2019-08-03T23:30:23.422Z",
+>>>>>>> Stashed changes
   "devdoc": {
     "details": "Unsigned math operations with safety checks that revert on error",
     "methods": {},

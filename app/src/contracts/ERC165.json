@@ -1268,7 +1268,11 @@
   },
   "networks": {},
   "schemaVersion": "3.0.6",
+<<<<<<< Updated upstream
   "updatedAt": "2019-08-03T18:32:53.929Z",
+=======
+  "updatedAt": "2019-08-03T23:30:23.345Z",
+>>>>>>> Stashed changes
   "devdoc": {
     "author": "Matt Condon (@shrugs)",
     "details": "Implements ERC165 using a lookup table.",
