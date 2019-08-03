@@ -1,0 +1,30 @@
+body {      
+    background-image: linear-gradient(to right, #434343 0%, #2c2c2c 100%);    
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+  }
+  
+  #particles-js {
+    position: absolute;      
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+
+  .Grid {
+    z-index: 1000;
+    width: 80vh;
+    height: 80vh;
+    margin: auto;
+    padding: 10vh 0; 
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+  }
+  .Grid-item {
+    width: 32%;
+    height: 32%;
+    margin: 0.5%;
+    background: grey;
+  }
