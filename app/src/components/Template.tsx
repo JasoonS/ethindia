@@ -5,7 +5,8 @@ import About from './About'
 import HowItWorks from './HowItworks';
 import UploadImage from './UploadImage';
 import { TokenIdProvider } from "./TokenIdContext";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 type displayPurchaseState = {
   displayPurchase: boolean;
@@ -13,6 +14,17 @@ type displayPurchaseState = {
 
 class Template extends Component<{}, displayPurchaseState> {
   componentWillMount() {
+    toast.info("Our contracts are bullet proof but our frontend might need a refresh", {
+      position: "top-right",
+      autoClose: 6000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
+    setTimeout(()=>{
+      toast.info("We are on the crisp chat below please message us with any questions");
+    },6400)
     this.setState({
       displayPurchase: false
     });
@@ -22,6 +34,7 @@ class Template extends Component<{}, displayPurchaseState> {
     return (
       <div>
         <header>
+          <ToastContainer />
           <h1>
 
             These ads are always for sale, purchase the ad space and set your own monthly payment...
@@ -141,7 +154,7 @@ class Template extends Component<{}, displayPurchaseState> {
           </div>
         </footer>
 
-        <UploadImage/>
+        <UploadImage />
       </div>
     );
   }
