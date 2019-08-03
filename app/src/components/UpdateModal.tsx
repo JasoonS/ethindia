@@ -73,11 +73,11 @@ class BuyModal extends Component<any, any> {
       const contractFunction = this.state.depositState ? 'depositWei' : 'withdrawDeposit'
       currentTxIndex = this.contracts.VitalikSteward.methods[
         contractFunction
-      ].cacheSend(0, { value: inputValue })
+      ].cacheSend(this.props.tokenId, { value: inputValue })
     } else {
       currentTxIndex = this.contracts.VitalikSteward.methods[
         'changePrice'
-      ].cacheSend(0, inputValue)
+      ].cacheSend(this.props.tokenId, inputValue)
     }
     this.setState((state: any, props: any) => ({
       ...state,

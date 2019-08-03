@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
+import { connectTokenId } from "./TokenIdContext";
 
 /*
 Edited from drizzle react components, ContractFrom.
@@ -35,7 +36,7 @@ class BuyForm extends Component<{ contract: any, method: any, sendArgs: any, val
     const abi = this.contracts[this.props.contract].abi;
 
     this.inputs = [];
-    var initialState: any = {};
+    var initialState: any = { tokenId: props.tokenId };
 
     // Iterate over abi for correct function.
     for (var i = 0; i < abi.length; i++) {
@@ -158,4 +159,4 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default drizzleConnect(BuyForm, mapStateToProps);
+export default connectTokenId(drizzleConnect(BuyForm, mapStateToProps))

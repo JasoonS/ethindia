@@ -77,23 +77,11 @@ class BuyModal extends Component<any, any> {
   handleSubmit(event: any) {
     event.preventDefault();
     let args: any = {};
-    const convertedInputs = this.inputs.map((input: any, index: any) => {
-      if (input.type === 'bytes32') {
-        return this.utils.toHex(this.state.contractFunctions[input.name]);
-      } else if (input.type === 'uint256') {
-        return this.utils.toWei(
-          this.state.contractFunctions[input.name],
-          'ether'
-        ); // all number fields are ETH  fields.
-      }
-      return this.state.contractFunctions[input.name];
-    });
 
     // todo: if foreclosed, price should default to zero.
     if (this.state.contractFunctions.value) {
       const artworkPrice = new this.utils.BN(
-        0
-        // this.props.contracts.VitalikSteward['price']['0x0'].value
+        this.props.contracts.VitalikSteward['price']['0x0'].value
       );
       args.value = new this.utils.BN(
         this.utils.toWei(this.state.contractFunctions.value, 'ether')
@@ -102,13 +90,19 @@ class BuyModal extends Component<any, any> {
 
     const currentTxIndex = args
       ? this.contracts.VitalikSteward.methods['buy'].cacheSend(
-        // this.props.tokenId,
-        ...convertedInputs,
+        this.props.tokenId,
+        this.utils.toWei(
+          this.state.contractFunctions._newPrice,
+          'ether'
+        ),
         args
       )
       : this.contracts.VitalikSteward.methods['buy'].cacheSend(
-        // this.props.tokenId,
-        ...convertedInputs
+        this.props.tokenId,
+        this.utils.toWei(
+          this.state.contractFunctions._newPrice,
+          'ether'
+        ),
       );
 
     this.setState((state: any, props: any) => ({
@@ -239,6 +233,13 @@ class BuyModal extends Component<any, any> {
                         className='pure-form pure-form-stacked'
                         onSubmit={this.handleSubmit}
                       >
+                        {/* <Input
+                          key='_newPrice'
+                          type='number'
+                          name='tokenId'
+                          value={this.props.tokenId}
+                          style={{ display: 'none' }}
+                        /> */}
                         <Input
                           key='_newPrice'
                           type='number'
