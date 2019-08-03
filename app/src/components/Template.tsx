@@ -3,6 +3,7 @@ import Toggle from 'react-toggle'
 import Dapp from "./Dapp"
 import About from './About'
 import HowItWorks from './HowItworks';
+import UploadImage from './UploadImage';
 import { TokenIdProvider } from "./TokenIdContext";
 
 
@@ -26,6 +27,8 @@ class Template extends Component<{}, displayPurchaseState> {
             These ads are always for sale, purchase the ad space and set your own monthly payment...
             <br /> and even make a profit when someone buys the ad space from you
             </h1>
+
+
           <label>
             <Toggle
               defaultChecked={this.state.displayPurchase}
@@ -137,6 +140,8 @@ class Template extends Component<{}, displayPurchaseState> {
             <HowItWorks />
           </div>
         </footer>
+
+        <UploadImage/>
       </div>
     );
   }

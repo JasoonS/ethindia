@@ -7,4 +7,5 @@ declare module 'rimble-ui';
 declare module 'truffle-hdwallet-provider';
 declare module 'react-toggle';
 declare module 'ipfs';
+declare module 'react-images-upload';
 

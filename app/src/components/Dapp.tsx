@@ -8,7 +8,8 @@ import { drizzleConnect } from "drizzle-react";
 import PropTypes from "prop-types";
 import web3ProvideSwitcher from "../web3ProvideSwitcher"
 import { UsdPriceProvider } from "./USDPriceContext"
-import { connectTokenId } from "./TokenIdContext";
+import { connectTokenId } from "./TokenIdContext"
+import IPFS from 'ipfs'
 
 
 class Dapp extends Component<any, any> {
@@ -31,10 +32,37 @@ class Dapp extends Component<any, any> {
     this.utils = context.drizzle.web3.utils;
     this.context = context
 
-    this.state = { tokenOwner: '' }
+    this.state = { 
+      tokenOwner: '',
+      base64Image: '',
+  }
+
+  }
+
+  getBase64Image = () => {
+    const hash = 'QmfCHzWyFrwmVwDaqj28VgUkHJ4aZA5DNBfcJRxU1GLGeq'
+
+    const node = new IPFS()
+
+    node.once('ready', () => {
+      node.cat(hash, (err: any, data: any) => {
+        if (err) return console.error(err)
+
+        // convert Buffer back to string
+        // console.log(data.toString())
+        this.setState({
+          ...this.state,
+          base64Image: data.toString()})
+      })
+    })
+  }
+
+  async componentDidMount(){
+    this.getBase64Image()
   }
 
   async componentWillReceiveProps(nextProps: any) {
+    
     const { tokenId } = nextProps
     const tokenOwnerKey = this.context.drizzle.contracts.ERC721Full.methods.ownerOf.cacheCall(tokenId)
     const tokenOwnerObj = nextProps.contracts['ERC721Full']['ownerOf'][tokenOwnerKey]
@@ -54,14 +82,18 @@ class Dapp extends Component<any, any> {
     const showInteracting = true
     const isTokenOwner = tokenOwner === accounts[0]
 
-    console.log({ tokenOwner })
+
+    // console.log({ tokenOwner })
 
     return (
       <Fragment>
         <OfflineContainer>
           <div className="image-container">
             <a href='https://wildcards.world?ref=alwaysforsale'>
-              <img src={wildcardsImage} style={{ width: '100%' }} />
+              {
+                this.state.base64Image != '' &&
+                <img src={`${this.state.base64Image}`} style={{ width: '100%' }} />
+              }
             </a>
             {this.props.displayPurchase &&
               <div className='interaction-button-container'>

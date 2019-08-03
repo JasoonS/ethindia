@@ -203,10 +203,10 @@ class BuyModal extends Component<any, any> {
 
     return (
       <React.Fragment>
-        <Button mainColor="#6bad3e" onClick={() => this.openModal(ModalState.Price)} > Update Price</Button>
+        <Button mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.Price)} > Update Price</Button>
         &ensp;
-        <Button mainColor="#6bad3e" onClick={() => this.openModal(ModalState.Deposit)} > Add/Remove Deposit</Button>
-
+        <Button mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.Deposit)} > Add/Remove Deposit</Button>
+        <div style={{position: 'absolute', top: '1000'}}>
         <Modal isOpen={this.state.modalState === ModalState.Price}>
           <Card width={'420px'} p={0}>
             <Button.Text
@@ -270,6 +270,7 @@ class BuyModal extends Component<any, any> {
             </Flex>}
           </Card>
         </Modal>
+        </div>
         <Modal isOpen={this.state.modalState === ModalState.Deposit}>
           <Card width={'420px'} p={0}>
             <Button.Text
