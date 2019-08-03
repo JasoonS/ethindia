@@ -22,6 +22,7 @@ interface state {
   isOpen: boolean;
   connectedToInjectedWeb3: boolean;
   currentTxIndex: number;
+  priceKey: any;
 }
 
 class BuyModal extends Component<any, any> {
@@ -70,7 +71,8 @@ class BuyModal extends Component<any, any> {
       contractFunctions,
       isOpen: false,
       connectedToInjectedWeb3: false,
-      currentTxIndex: -1
+      currentTxIndex: -1,
+      priceKey: context.drizzle.contracts.VitalikSteward.methods.price.cacheCall(props.tokenId),
     };
   }
 
@@ -81,7 +83,7 @@ class BuyModal extends Component<any, any> {
     // todo: if foreclosed, price should default to zero.
     if (this.state.contractFunctions.value) {
       const artworkPrice = new this.utils.BN(
-        this.props.contracts.VitalikSteward['price']['0x0'].value
+        this.props.contracts.VitalikSteward['price'][this.state.priceKey].value
       );
       args.value = new this.utils.BN(
         this.utils.toWei(this.state.contractFunctions.value, 'ether')
@@ -233,13 +235,6 @@ class BuyModal extends Component<any, any> {
                         className='pure-form pure-form-stacked'
                         onSubmit={this.handleSubmit}
                       >
-                        {/* <Input
-                          key='_newPrice'
-                          type='number'
-                          name='tokenId'
-                          value={this.props.tokenId}
-                          style={{ display: 'none' }}
-                        /> */}
                         <Input
                           key='_newPrice'
                           type='number'
