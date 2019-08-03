@@ -59,6 +59,20 @@ header h1 {
   transform: translate(-50%, -50%);
 }
 
+.socials{
+  display: inline-block;
+}
+
+.more-info{
+  display: inline-block;
+  margin:auto;
+}
+
+.scrollable-content{
+  height: 80%;
+  overflow-y:scroll;
+}
+
 @media (max-width: 768px) {
   .Grid {
     z-index: 1000;

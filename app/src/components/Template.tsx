@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Toggle from 'react-toggle'
 import Dapp from "./Dapp"
+import About from './About'
 
 type displayPurchaseState = {
   displayPurchase: boolean
@@ -63,11 +64,16 @@ class Template extends Component<{}, displayPurchaseState> {
           </div>
         </div>
         <footer>
-          <div className="fb-share-button" data-href="http://alwaysforsale.io" data-layout="button" data-size="small">
-            <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Falwaysforsale.io%2F&amp;src=sdkpreparse" className="fb-xfbml-parse-ignore">Share</a>
+          <div className='socials'>
+            <div className="fb-share-button" data-href="http://alwaysforsale.io" data-layout="button" data-size="small">
+              <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Falwaysforsale.io%2F&amp;src=sdkpreparse" className="fb-xfbml-parse-ignore">Share</a>
+            </div>
+            <div>
+              <a href="https://twitter.com/intent/tweet?button_hashtag=Alwaysforsale.io&ref_src=twsrc%5Etfw" className="twitter-hashtag-button" data-show-count="false">Tweet #Alwaysforsale</a>
+            </div>
           </div>
-          <div>            
-            <a href="https://twitter.com/intent/tweet?button_hashtag=Alwaysforsale.io&ref_src=twsrc%5Etfw" className="twitter-hashtag-button" data-show-count="false">Tweet #Alwaysforsale</a>
+          <div className='more-info'>
+            <About />
           </div>
         </footer>
       </div>
