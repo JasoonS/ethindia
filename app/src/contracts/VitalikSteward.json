@@ -22351,14 +22351,72 @@
   },
   "networks": {
     "5777": {
-      "events": {},
+      "events": {
+        "0x4f79409f494e81c38036d80aa8a6507c2cb08d90bfb2fead5519447646b3497e": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "price",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuy",
+          "type": "event",
+          "signature": "0x4f79409f494e81c38036d80aa8a6507c2cb08d90bfb2fead5519447646b3497e"
+        },
+        "0x854d6511a28585103049c7770618450f7c9aeb580c69db2913d63869663f4751": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "newPrice",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogPriceChange",
+          "type": "event",
+          "signature": "0x854d6511a28585103049c7770618450f7c9aeb580c69db2913d63869663f4751"
+        },
+        "0x6d6bbefef62d4cb6d0e3a4dd306a71d3632319b1e03659513df86b247dd657fe": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "prevOwner",
+              "type": "address"
+            }
+          ],
+          "name": "LogForeclosure",
+          "type": "event",
+          "signature": "0x6d6bbefef62d4cb6d0e3a4dd306a71d3632319b1e03659513df86b247dd657fe"
+        },
+        "0x54acb82a9e70d7c289b149758d23167c915428ae854a7aa4abe5bf2f4ef29f36": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "collected",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogCollection",
+          "type": "event",
+          "signature": "0x54acb82a9e70d7c289b149758d23167c915428ae854a7aa4abe5bf2f4ef29f36"
+        }
+      },
       "links": {},
       "address": "0x00c7E0345F50fFdd1678961a7b58Da3e51DB248B",
       "transactionHash": "0x70dd04ca608587f116b5e3fb00713d178edaa8e112c36e1e2bd7f0cd715038c2"
     }
   },
   "schemaVersion": "3.0.6",
-  "updatedAt": "2019-08-03T06:22:49.796Z",
+  "updatedAt": "2019-08-03T07:22:55.833Z",
   "devdoc": {
     "methods": {}
   },

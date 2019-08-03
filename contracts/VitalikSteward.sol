@@ -15,35 +15,39 @@ contract VitalikSteward {
     - Steward maints control over ERC721.
     */
     using SafeMath for uint256;
+
+    uint8 constant numberOfTokens = 9;
     
-    uint256 public price; //in wei
+    uint256[numberOfTokens] public price; //in wei
     IERC721Full public assetToken; // ERC721 NFT.
     
-    uint256 public totalCollected; // all patronage ever collected
-    uint256 public currentCollected; // amount currently collected for patron  
-    uint256 public timeLastCollected; // 
-    uint256 public deposit;
+    uint256[numberOfTokens] public totalCollected; // all patronage ever collected
+    uint256[numberOfTokens] public currentCollected; // amount currently collected for patron  
+    uint256[numberOfTokens] public timeLastCollected; // 
+    uint256[numberOfTokens] public deposit;
 
     address payable public organization; // non-profit organization
     uint256 public organizationFund;
     
-    mapping (address => bool) public patrons;
-    mapping (address => uint256) public timeHeld;
+    mapping(uint8 => mapping (address => bool)) public patrons;
+    mapping(uint8 => mapping (address => uint256)) public timeHeld;
 
-    uint256 public timeAcquired;
+    uint256[numberOfTokens] public timeAcquired;
     
     // 30% patronage
     uint256 patronageNumerator = 300000000000;
     uint256 patronageDenominator = 1000000000000;
 
     enum StewardState { Foreclosed, Owned }
-    StewardState public state;
+    StewardState[numberOfTokens] public state;
 
     constructor(address payable _organization, address _assetToken) public {
         assetToken = IERC721Full(_assetToken);
-        assetToken.setup();
+        assetToken.setup(numberOfTokens, "FIX-ME");
         organization = _organization;
-        state = StewardState.Foreclosed;
+        for (uint8 i = 0; i < numberOfTokens; ++i){
+          state[i] = StewardState.Foreclosed;
+        }
     } 
 
     event LogBuy(address indexed owner, uint256 indexed price);
@@ -51,8 +55,8 @@ contract VitalikSteward {
     event LogForeclosure(address indexed prevOwner);
     event LogCollection(uint256 indexed collected);
     
-    modifier onlyPatron() {
-        require(msg.sender == assetToken.ownerOf(42), "Not patron");
+    modifier onlyPatron(uint8 tokenIndex) {
+        require(msg.sender == assetToken.ownerOf(tokenIndex), "Not patron");
         _;
     }
 
@@ -61,8 +65,8 @@ contract VitalikSteward {
         _;
     }
 
-    modifier collectPatronage() {
-       _collectPatronage(); 
+    modifier collectPatronage(uint8 tokenIndex) {
+       _collectPatronage(tokenIndex);
        _;
     }
 
@@ -71,21 +75,22 @@ contract VitalikSteward {
     }
 
     /* public view functions */
-    function patronageOwed() public view returns (uint256 patronageDue) {
-        return price.mul(now.sub(timeLastCollected)).mul(patronageNumerator)
+    function patronageOwed(uint8 tokenIndex) public view returns (uint256 patronageDue) {
+        return price[tokenIndex].mul(now.sub(timeLastCollected[tokenIndex])).mul(patronageNumerator)
             .div(patronageDenominator).div(365 days);
     }
 
-    function patronageOwedWithTimestamp() public view returns (uint256 patronageDue, uint256 timestamp) {
-        return (patronageOwed(), now);
+    function patronageOwedWithTimestamp(uint8 tokenIndex) public view returns (uint256 patronageDue, uint256 timestamp) {
+        return (patronageOwed(tokenIndex), now);
     }
 
-    function foreclosed() public view returns (bool) {
+    // TODO: currently patronage isn't shared. We need to think of best way to solve this.
+    function foreclosed(uint8 tokenIndex) public view returns (bool) {
         // returns whether it is in foreclosed state or not
         // depending on whether deposit covers patronage due
         // useful helper function when price should be zero, but contract doesn't reflect it yet.
-        uint256 collection = patronageOwed();
-        if(collection >= deposit) {
+        uint256 collection = patronageOwed(tokenIndex);
+        if(collection >= deposit[tokenIndex]) {
             return true;
         } else {
             return false;
@@ -93,12 +98,12 @@ contract VitalikSteward {
     }
 
     // same function as above, basically
-    function depositAbleToWithdraw() public view returns (uint256) {
-        uint256 collection = patronageOwed();
-        if(collection >= deposit) {
+    function depositAbleToWithdraw(uint8 tokenIndex) public view returns (uint256) {
+        uint256 collection = patronageOwed(tokenIndex);
+        if(collection >= deposit[tokenIndex]) {
             return 0;
         } else {
-            return deposit.sub(collection);
+            return deposit[tokenIndex].sub(collection);
         }
     }
 
@@ -106,78 +111,78 @@ contract VitalikSteward {
     now + deposit/patronage per second 
     now + depositAbleToWithdraw/(price*nume/denom/365).
     */
-    function foreclosureTime() public view returns (uint256) {
+    function foreclosureTime(uint8 tokenIndex) public view returns (uint256) {
         // patronage per second
-        uint256 pps = price.mul(patronageNumerator).div(patronageDenominator).div(365 days);
-        return now + depositAbleToWithdraw().div(pps); // zero division if price is zero.
+        uint256 pps = price[tokenIndex].mul(patronageNumerator).div(patronageDenominator).div(365 days);
+        return now + depositAbleToWithdraw(tokenIndex).div(pps); // zero division if price is zero.
     }
 
     /* actions */
-    function _collectPatronage() public {
+    function _collectPatronage(uint8 tokenIndex) public {
         // determine patronage to pay
-        if (state == StewardState.Owned) {
-            uint256 collection = patronageOwed();
-            
-            // should foreclose and stake stewardship
-            if (collection >= deposit) {
-                // up to when was it actually paid for?
-                timeLastCollected = timeLastCollected.add(((now.sub(timeLastCollected)).mul(deposit).div(collection)));
-                collection = deposit; // take what's left.
+        if (state[tokenIndex] == StewardState.Owned) {
+            uint256 collection = patronageOwed(tokenIndex);
 
-                _foreclose();
+            // should foreclose and stake stewardship
+            if (collection >= deposit[tokenIndex]) {
+                // up to when was it actually paid for?
+                timeLastCollected[tokenIndex] = timeLastCollected[tokenIndex].add(((now.sub(timeLastCollected[tokenIndex])).mul(deposit[tokenIndex]).div(collection)));
+                collection = deposit[tokenIndex]; // take what's left.
+
+                _foreclose(tokenIndex);
             } else  {
                 // just a normal collection
-                timeLastCollected = now;
-                currentCollected = currentCollected.add(collection);
+                timeLastCollected[tokenIndex] = now;
+                currentCollected[tokenIndex] = currentCollected[tokenIndex].add(collection);
             }
-            
-            deposit = deposit.sub(collection);
-            totalCollected = totalCollected.add(collection);
+
+            deposit[tokenIndex] = deposit[tokenIndex].sub(collection);
+            totalCollected[tokenIndex] = totalCollected[tokenIndex].add(collection);
             organizationFund = organizationFund.add(collection);
             emit LogCollection(collection);
         }
     }
-    
-    // note: anyone can deposit
-    function depositWei() public payable collectPatronage {
-        require(state != StewardState.Foreclosed, "Foreclosed");
-        deposit = deposit.add(msg.value);
-    }
-    
-    function buy(uint256 _newPrice) public payable collectPatronage {
-        require(_newPrice > 0, "Price is zero");
-        require(msg.value > price, "Not enough"); // >, coz need to have at least something for deposit
-        address currentOwner = assetToken.ownerOf(42);
 
-        if (state == StewardState.Owned) {
-            uint256 totalToPayBack = price;
-            if(deposit > 0) {
-                totalToPayBack = totalToPayBack.add(deposit);
-            }  
-    
+    // note: anyone can deposit
+    function depositWei(uint8 tokenIndex) public payable collectPatronage(tokenIndex) {
+        require(state[tokenIndex] != StewardState.Foreclosed, "Foreclosed");
+        deposit[tokenIndex] = deposit[tokenIndex].add(msg.value);
+    }
+
+    function buy(uint8 tokenIndex, uint256 _newPrice) public payable collectPatronage(tokenIndex) {
+        require(_newPrice > 0, "Price is zero");
+        require(msg.value > price[tokenIndex], "Not enough"); // >, coz need to have at least something for deposit
+        address currentOwner = assetToken.ownerOf(tokenIndex);
+
+        if (state[tokenIndex] == StewardState.Owned) {
+            uint256 totalToPayBack = price[tokenIndex];
+            if(deposit[tokenIndex] > 0) {
+                totalToPayBack = totalToPayBack.add(deposit[tokenIndex]);
+            }
+
             // pay previous owner their price + deposit back.
             address payable payableCurrentOwner = address(uint160(currentOwner));
             payableCurrentOwner.transfer(totalToPayBack);
-        } else if(state == StewardState.Foreclosed) {
-            state = StewardState.Owned;
-            timeLastCollected = now;
+        } else if(state[tokenIndex] == StewardState.Foreclosed) {
+            state[tokenIndex] = StewardState.Owned;
+            timeLastCollected[tokenIndex] = now;
         }
         
-        deposit = msg.value.sub(price);
-        transferAssetTokenTo(currentOwner, msg.sender, _newPrice);
+        deposit[tokenIndex] = msg.value.sub(price[tokenIndex]);
+            transferAssetTokenTo(tokenIndex, currentOwner, msg.sender, _newPrice);
         emit LogBuy(msg.sender, _newPrice);
     }
 
-    function changePrice(uint256 _newPrice) public onlyPatron collectPatronage {
-        require(state != StewardState.Foreclosed, "Foreclosed");
+    function changePrice(uint8 tokenIndex, uint256 _newPrice) public onlyPatron(tokenIndex) collectPatronage(tokenIndex) {
+        require(state[tokenIndex] != StewardState.Foreclosed, "Foreclosed");
         require(_newPrice != 0, "Incorrect Price");
         
-        price = _newPrice;
-        emit LogPriceChange(price);
+        price[tokenIndex] = _newPrice;
+        emit LogPriceChange(price[tokenIndex]);
     }
     
-    function withdrawDeposit(uint256 _wei) public onlyPatron collectPatronage returns (uint256) {
-        _withdrawDeposit(_wei);
+    function withdrawDeposit(uint8 tokenIndex, uint256 _wei) public onlyPatron(tokenIndex) collectPatronage(tokenIndex) returns (uint256) {
+        _withdrawDeposit(tokenIndex, _wei);
     }
 
     function withdrawOrganizationFunds() public {
@@ -186,42 +191,42 @@ contract VitalikSteward {
         organizationFund = 0;
     }
 
-    function exit() public onlyPatron collectPatronage {
-        _withdrawDeposit(deposit);
+    function exit(uint8 tokenIndex) public onlyPatron(tokenIndex) collectPatronage(tokenIndex) {
+        _withdrawDeposit(tokenIndex, deposit[tokenIndex]);
     }
 
     /* internal */
 
-    function _withdrawDeposit(uint256 _wei) internal {
+    function _withdrawDeposit(uint8 tokenIndex, uint256 _wei) internal {
         // note: can withdraw whole deposit, which puts it in immediate to be foreclosed state.
-        require(deposit >= _wei, 'Withdrawing too much');
+        require(deposit[tokenIndex] >= _wei, 'Withdrawing too much');
 
-        deposit = deposit.sub(_wei);
+        deposit[tokenIndex] = deposit[tokenIndex].sub(_wei);
         msg.sender.transfer(_wei); // msg.sender == patron
 
-        if(deposit == 0) {
-            _foreclose();
+        if(deposit[tokenIndex] == 0) {
+            _foreclose(tokenIndex);
         }
     }
 
-    function _foreclose() internal {
+    function _foreclose(uint8 tokenIndex) internal {
         // become steward of assetToken (aka foreclose)
-        address currentOwner = assetToken.ownerOf(42);
-        transferAssetTokenTo(currentOwner, address(this), 0);
-        state = StewardState.Foreclosed;
-        currentCollected = 0;
+        address currentOwner = assetToken.ownerOf(tokenIndex);
+        transferAssetTokenTo(tokenIndex, currentOwner, address(this), 0);
+        state[tokenIndex] = StewardState.Foreclosed;
+        currentCollected[tokenIndex] = 0;
 
         emit LogForeclosure(currentOwner);
     }
 
-    function transferAssetTokenTo(address _currentOwner, address _newOwner, uint256 _newPrice) internal {
+    function transferAssetTokenTo(uint8 tokenIndex, address _currentOwner, address _newOwner, uint256 _newPrice) internal {
         // note: it would also tabulate time held in stewardship by smart contract
-        timeHeld[_currentOwner] = timeHeld[_currentOwner].add((timeLastCollected.sub(timeAcquired)));
+        timeHeld[tokenIndex][_currentOwner] = timeHeld[tokenIndex][_currentOwner].add((timeLastCollected[tokenIndex].sub(timeAcquired[tokenIndex])));
         
-        assetToken.transferFrom(_currentOwner, _newOwner, 42);
+        assetToken.transferFrom(_currentOwner, _newOwner, tokenIndex);
 
-        price = _newPrice;
-        timeAcquired = now;
-        patrons[_newOwner] = true;
+        price[tokenIndex] = _newPrice;
+        timeAcquired[tokenIndex] = now;
+        patrons[tokenIndex][_newOwner] = true;
     }
 }
