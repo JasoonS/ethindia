@@ -44,8 +44,13 @@ header h1 {
   position: relative;
 }
 
+.image-block-text{
+  font-size: 9px;
+}
+
 .interaction-button-container {
-  background-color: rgba(10, 10, 10, 0.5);
+  background-color: rgba(10, 10, 10, 0.8);
+  color: white;
   position: absolute;
   top: 0;
   width: 100%;
