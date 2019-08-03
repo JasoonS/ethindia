@@ -64,13 +64,17 @@ header h1 {
 }
 
 .more-info{
-  display: inline-block;
-  margin:auto;
+  /* display: inline-block;
+  transform: translate(calc(50vw - 150%) ,-10px) */
 }
 
 .scrollable-content{
-  height: 80%;
+  height: 84%;
   overflow-y:scroll;
+}
+
+.information-button{
+  margin:auto;
 }
 
 @media (max-width: 768px) {
