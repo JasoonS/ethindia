@@ -18,17 +18,61 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-  </head>
+  
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
 
-  <script src="particles.js"></script>
-  <script>
-    particlesJS.load("particles-js", "particlesjs-config.json", function() {
-      console.log("callback - particles.js config loaded");
-    });
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="text/javascript">
+      window.$crisp = [];
+      window.CRISP_WEBSITE_ID = "ab261827-3ae7-43fa-8ef7-a1402ad24a8d";
+      (function() {
+        d = document;
+        s = d.createElement("script");
+        s.src = "https://client.crisp.chat/l.js";
+        s.async = 1;
+        d.getElementsByTagName("head")[0].appendChild(s);
+      })();
+    </script>
+
+    <script src="particles.js"></script>
+    <script>
+      particlesJS.load(
+        "particles-js",
+        "particlesjs-config.json",
+        function() {}
+      );
+    </script>
+
+    <script
+      async
+      src="https://platform.twitter.com/widgets.js"
+      charset="utf-8"
+    ></script>
+ 
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-139348292-2"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      </script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8">
   </script>
-
+</head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+      <div id="fb-root"></div>
+      <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v4.0&appId=209464939593623&autoLogAppEvents=1"></script>
+       <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="particles-js"></div>
     <div id="root"></div>
   </body>

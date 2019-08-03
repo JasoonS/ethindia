@@ -197,9 +197,7 @@ class BuyModal extends Component<any, any> {
     const transactionProcessing = currentTxIndex !== -1;
     return (
       <React.Fragment>
-        <Button mainColor='#6bad3e' onClick={this.openModal}>
-          Buy
-        </Button>
+        <Button mainColor="#2c2c2c" onClick={this.openModal}>Buy</Button>
 
         <Modal isOpen={this.state.isOpen}>
           <Card width={'420px'} p={0}>
@@ -280,22 +278,16 @@ class BuyModal extends Component<any, any> {
                   <Text>
                     Unable to connect to metamask, so unable to sign transactions.
                 </Text>
-                </Box>
-              )}
-            {!transactionProcessing && (
-              <Flex
-                px={4}
-                py={3}
-                borderTop={1}
-                borderColor={'#E8E8E8'}
-                justifyContent={'flex-end'}
-              >
-                {/* <Button.Outline>Cancel</Button.Outline> In the future this could be for resetting the values or something*/}
-                <Button mainColor='#6bad3e' ml={3} onClick={this.handleSubmit}>
-                  Buy Vitalik
-                </Button>
-              </Flex>
-            )}
+              </Box>
+            }
+            {(!transactionProcessing) && <Flex px={4} py={3} borderTop={1} borderColor={'#E8E8E8'} justifyContent={'flex-end'}>
+              {/* <Button.Outline>Cancel</Button.Outline> In the future this could be for resetting the values or something*/}
+              <Button
+                mainColor="#2c2c2c"
+                ml={3}
+                onClick={this.handleSubmit}
+              >Purchase this ad space</Button>
+            </Flex>}
           </Card>
         </Modal>
       </React.Fragment>
