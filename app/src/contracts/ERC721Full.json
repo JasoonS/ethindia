@@ -2182,12 +2182,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x9c571412740860Cf78C5B73D0BD8e52BFBF873ba",
-      "transactionHash": "0xb8082fd7f25662b8418aba53a181b47c6ac93298223090783e8a3fe7eaa04d40"
+      "address": "0x58291fD96078C3Cd524AE4C6188c84FD995Ec04E",
+      "transactionHash": "0x40902358c7d90aed65b95a5a50b78e4f16c4bb8dc4d095c71ddf503fbfb9fcd9"
     }
   },
   "schemaVersion": "3.0.6",
-  "updatedAt": "2019-08-03T14:37:47.777Z",
+  "updatedAt": "2019-08-03T14:50:59.808Z",
   "devdoc": {
     "details": "see https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md",
     "methods": {
