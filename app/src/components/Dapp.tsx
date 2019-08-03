@@ -8,7 +8,7 @@ import { drizzleConnect } from "drizzle-react";
 import PropTypes from "prop-types";
 import web3ProvideSwitcher from "../web3ProvideSwitcher"
 import { UsdPriceProvider } from "./USDPriceContext"
-import { useTokenId } from "./TokenIdContext";
+import { connectTokenId } from "./TokenIdContext";
 
 class Dapp extends Component<any, any> {
 
@@ -34,9 +34,14 @@ class Dapp extends Component<any, any> {
   }
 
   async componentWillReceiveProps(nextProps: any) {
-    const { tokenId } = nextProps
+    // const { tokenId } = nextProps
+    console.log(nextProps)
+    // console.log({ tokenId })
+    const tokenId = 0
     const tokenOwnerKey = this.context.drizzle.contracts.ERC721Full.methods.ownerOf.cacheCall(tokenId)
     const tokenOwnerObj = nextProps.contracts['ERC721Full']['ownerOf'][tokenOwnerKey]
+    console.log({ tokenOwnerObj, tokenId })
+
 
     if (!!tokenOwnerObj && !!tokenOwnerObj.value && this.state.tokenOwner !== tokenOwnerObj.value) {
       this.setState({
@@ -52,7 +57,7 @@ class Dapp extends Component<any, any> {
     const showDapp = web3ProvideSwitcher.providerInjected
     const showBuy = true
 
-    console.log({ showDapp })
+    console.log({ tokenOwner })
 
     return (
       <Fragment>
@@ -106,11 +111,7 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-const DappConnected = (props: any) => {
-  const Component = drizzleConnect(Dapp, mapStateToProps)
-  const tokenId = useTokenId()
-  return <Component tokenId={tokenId} {...props} />
-}
+const DappConnected = connectTokenId(drizzleConnect(Dapp, mapStateToProps))
 
 class DappWrapper extends Component<any, any> {
   constructor(props: any, context: any) {

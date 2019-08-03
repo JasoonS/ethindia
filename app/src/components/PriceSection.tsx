@@ -6,7 +6,7 @@ import moment from 'moment';
 import ContractData from './ContractData';
 
 import { getUSDValue } from '../Actions';
-import { useTokenId } from './TokenIdContext';
+import { connectTokenId } from "./TokenIdContext";
 
 class PriceSection extends Component<{ contracts: any }> {
   utils: any;
@@ -33,7 +33,6 @@ class PriceSection extends Component<{ contracts: any }> {
       currentTimeHeld: 0,
       currentTimeHeldHumanized: ''
     };
-    console.log(this.state.artworkPriceKey);
   }
 
   async updateUSDPrice(props: any) {
@@ -184,8 +183,4 @@ const mapStateToProps = (state: any) => {
 }
 
 
-export default (props: any) => {
-  const Component = drizzleConnect(PriceSection, mapStateToProps);
-  const tokenId = useTokenId()
-  return <Component tokenId={tokenId} {...props} />
-}
+export default connectTokenId(drizzleConnect(PriceSection, mapStateToProps))

@@ -6,7 +6,7 @@ import { Tooltip } from 'rimble-ui'
 import ContractData from "./ContractData";
 import Countdown from "./Countdown"
 import { useUsdPrice } from "./USDPriceContext"
-import { useTokenId } from "./TokenIdContext";
+import { connectTokenId } from "./TokenIdContext";
 
 declare global {
   interface Window { ethereum: any; }
@@ -130,8 +130,6 @@ class ActionSection extends Component<{ contracts: any }, {}>  {
     this.getPatronageOwed = this.getPatronageOwed.bind(this)
     this.getVitalikPriceEth = this.getVitalikPriceEth.bind(this)
     const { tokenId } = props
-    console.log('the tokenid in overview', { tokenId })
-    console.log('here token overview')
     this.state = {
       patronageOwedKey: context.drizzle.contracts.VitalikSteward.methods.patronageOwed.cacheCall(tokenId),
       totalCollectedKey: context.drizzle.contracts.VitalikSteward.methods.totalCollected.cacheCall(tokenId),
@@ -140,14 +138,12 @@ class ActionSection extends Component<{ contracts: any }, {}>  {
       foreclosureTime: "N/A",
       vitalikPrice: "-1",
     };
-    console.log('there')
     this.state = {
       ...this.state,
       patronageOwed: this.getPatronageOwed(props),
       combinedCollected: this.getCombinedCellected(props),
       vitalikPrice: this.getVitalikPriceEth(props),
     };
-    console.log(this.state)
   }
 
   getTotalCollected(props: any) {
@@ -196,7 +192,6 @@ class ActionSection extends Component<{ contracts: any }, {}>  {
   // loadComponentData
 
   async componentWillReceiveProps(nextProps: any) {
-    console.log('price updated')
     if (this.props.contracts['VitalikSteward']['price']['0x0'] !== nextProps.contracts['VitalikSteward']['price']['0x0']) {
       if (nextProps.contracts['VitalikSteward']['price']['0x0'].value === '0') {
         this.setState({
@@ -214,7 +209,6 @@ class ActionSection extends Component<{ contracts: any }, {}>  {
       && this.state.totalCollectedKey in nextProps.contracts['VitalikSteward']['totalCollected']) {
       const ownedNow = this.getPatronageOwed(this.props)
       const ownedNext = this.getPatronageOwed(nextProps)
-      console.log({ ownedNext, ownedNow })
       if (ownedNow === "-1" || ownedNext === "-1" || !ownedNow.eq(ownedNext) || this.state.combinedCollected === "-1") {
         this.updateCombineCollected(nextProps);
       }
@@ -223,9 +217,6 @@ class ActionSection extends Component<{ contracts: any }, {}>  {
 
   render() {
     const { combinedCollected, vitalikPrice, foreclosureTime } = this.state
-
-    console.log(this.props.contracts['VitalikSteward']['patronageOwed'])
-    console.log(this.props.contracts['VitalikSteward']['totalCollected'])
 
     return (
       <DisplayComponent {...{ combinedCollected, vitalikPriceEth: vitalikPrice, foreclosureTime }} />
@@ -243,8 +234,5 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default (props: any) => {
-  const Component = drizzleConnect(ActionSection, mapStateToProps)
-  const tokenId = useTokenId()
-  return <Component tokenId={tokenId} {...props} />
-}
+export default connectTokenId(drizzleConnect(ActionSection, mapStateToProps))
+

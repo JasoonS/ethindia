@@ -90,7 +90,6 @@ class BuyModal extends Component<any, any> {
 
     // todo: if foreclosed, price should default to zero.
     if (this.state.contractFunctions.value) {
-      console.log(this.props.contracts.VitalikSteward['price']);
       const artworkPrice = new this.utils.BN(
         0
         // this.props.contracts.VitalikSteward['price']['0x0'].value

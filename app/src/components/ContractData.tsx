@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import { useTokenId } from "./TokenIdContext";
+import { connectTokenId } from "./TokenIdContext";
 
 class ContractData extends Component<{
   contracts: any, methodArgs: any, method: any, contract: any, toUtf8: any
@@ -164,9 +165,4 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default (props: any) => {
-  const Component = drizzleConnect(ContractData, mapStateToProps);
-  const tokenId = useTokenId()
-  return <Component tokenId={tokenId} {...props} />
-}
-
+export default connectTokenId(drizzleConnect(ContractData, mapStateToProps))

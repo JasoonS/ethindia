@@ -6,7 +6,7 @@ import { Button, Modal, Card, Box, Heading, Text, Flex, Loader, Input, Radio } f
 import web3ProvideSwitcher from "../web3ProvideSwitcher"
 import TokenOverview from "./TokenOverview"
 import moment from 'moment'
-import { useTokenId } from "./TokenIdContext";
+import { useTokenId, connectTokenId } from "./TokenIdContext";
 
 enum ModalState {
   Deposit,
@@ -75,11 +75,9 @@ class BuyModal extends Component<any, any> {
         contractFunction
       ].cacheSend(0, { value: inputValue })
     } else {
-      console.log('here')
       currentTxIndex = this.contracts.VitalikSteward.methods[
         'changePrice'
       ].cacheSend(0, inputValue)
-      console.log('there')
     }
     this.setState((state: any, props: any) => ({
       ...state,
@@ -351,8 +349,4 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-export default (props: any) => {
-  const Component = drizzleConnect(BuyModal, mapStateToProps);
-  const tokenId = useTokenId()
-  return <Component tokenId={tokenId} {...props} />
-}
+export default connectTokenId(drizzleConnect(BuyModal, mapStateToProps))

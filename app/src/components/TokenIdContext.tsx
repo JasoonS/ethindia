@@ -10,7 +10,6 @@ interface ProviderProps {
 }
 
 export const TokenIdProvider: React.FunctionComponent<ProviderProps> = ({ children, tokenId }) => {
-  console.log("THIS IS IMPORTANT", tokenId)
   return <TokenIdContext.Provider value={tokenId}>
     {children}
   </TokenIdContext.Provider>
@@ -21,3 +20,11 @@ TokenIdProvider.propTypes = {
 };
 
 export const useTokenId = () => useContext(TokenIdContext);
+
+export const connectTokenId = (WrappedComponent: any) => {
+  return (props: any) => {
+    const tokenId = useTokenId()
+    const newProps = { ...props, tokenId }
+    return <WrappedComponent {...newProps} />
+  }
+}
