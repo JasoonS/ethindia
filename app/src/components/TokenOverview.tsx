@@ -93,7 +93,7 @@ const DisplayComponent: React.FunctionComponent<DisplayProps> = ({ combinedColle
       </div>
 
   return (
-    <div className="section">
+    <div className="section image-block-text">
       <Tooltip message={tooltipContent()}>
         <p>
           Current Price: <ContractData contract="VitalikSteward" method="price" toEth /> ETH.{priceOfGorillaInUsd > 0 && ` (~ ${priceOfGorillaInUsd.toFixed(2)} USD)`}

@@ -44,8 +44,13 @@ header h1 {
   position: relative;
 }
 
+.image-block-text{
+  font-size: 9px;
+}
+
 .interaction-button-container {
-  background-color: rgba(10, 10, 10, 0.5);
+  background-color: rgba(10, 10, 10, 0.8);
+  color: white;
   position: absolute;
   top: 0;
   width: 100%;
@@ -57,6 +62,24 @@ header h1 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.socials{
+  display: inline-block;
+}
+
+.more-info{
+  /* display: inline-block;
+  transform: translate(calc(50vw - 150%) ,-10px) */
+}
+
+.scrollable-content{
+  height: 84%;
+  overflow-y:scroll;
+}
+
+.information-button{
+  margin:auto;
 }
 
 @media (max-width: 768px) {
