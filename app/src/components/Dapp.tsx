@@ -11,7 +11,7 @@ import { UsdPriceProvider } from "./USDPriceContext"
 import { connectTokenId } from "./TokenIdContext";
 
 
-class Dapp extends Component<any,any> {
+class Dapp extends Component<any, any> {
 
   contracts: any
   utils: any
@@ -30,19 +30,14 @@ class Dapp extends Component<any,any> {
     this.contracts = context.drizzle.contracts;
     this.utils = context.drizzle.web3.utils;
     this.context = context
-    
+
     this.state = { tokenOwner: '' }
   }
 
   async componentWillReceiveProps(nextProps: any) {
-    // const { tokenId } = nextProps
-    console.log(nextProps)
-    // console.log({ tokenId })
-    const tokenId = 0
+    const { tokenId } = nextProps
     const tokenOwnerKey = this.context.drizzle.contracts.ERC721Full.methods.ownerOf.cacheCall(tokenId)
     const tokenOwnerObj = nextProps.contracts['ERC721Full']['ownerOf'][tokenOwnerKey]
-    console.log({ tokenOwnerObj, tokenId })
-
 
     if (!!tokenOwnerObj && !!tokenOwnerObj.value && this.state.tokenOwner !== tokenOwnerObj.value) {
       this.setState({
@@ -66,7 +61,7 @@ class Dapp extends Component<any,any> {
         <OfflineContainer>
           <div className="image-container">
             <a href='https://wildcards.world'>
-            <img src={wildcardsImage} style={{ width: '100%' }} />
+              <img src={wildcardsImage} style={{ width: '100%' }} />
             </a>
             {this.props.displayPurchase &&
               <div className='interaction-button-container'>
@@ -120,7 +115,7 @@ class DappWrapper extends Component<any, any> {
     return (
       <UsdPriceProvider>
         <OfflineContainer>
-          <DappConnected displayPurchase={this.props.displayPurchase}/>
+          <DappConnected displayPurchase={this.props.displayPurchase} />
         </OfflineContainer>
       </UsdPriceProvider >
     )
