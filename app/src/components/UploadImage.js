@@ -40,6 +40,7 @@ node.once('ready', () => {
     // 'add' supports multiple additions, but we only added one entry
     console.log("files[0].hash")
     console.log(files[0].hash)
+    this.props.updateImageHashOnSmartContract(files[0].hash)
   })
 })
         };

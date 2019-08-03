@@ -3,7 +3,6 @@ import TokenOverview from './TokenOverview';
 import OfflineContainer from './Offline';
 import BuyModal from './BuyModal';
 import UpdateModal from './UpdateModal';
-import wildcardsImage from '../img/wildcards.png';
 import { drizzleConnect } from 'drizzle-react';
 import PropTypes from 'prop-types';
 import web3ProvideSwitcher from '../web3ProvideSwitcher';
@@ -25,12 +24,13 @@ class Dapp extends Component<any, any> {
 
   constructor(props: any, context: any) {
     super(props);
-    const tokenId = 0;
+    // const tokenId = 0;
     // console.log(context.drizzle.contracts.VitalikSteward.methods.hashes.);
     //console.log(context.drizzle.contracts['VitalikSteward']['hashes']['0x0']);
     this.contracts = context.drizzle.contracts;
     this.utils = context.drizzle.web3.utils;
     this.context = context;
+    
 
     this.state = {
       tokenOwner: '',
@@ -50,8 +50,17 @@ class Dapp extends Component<any, any> {
     };
   }
 
+  componentWillMount() {
+    setTimeout(()=>{this.getBase64Image()}, 3000);
+    console.log(this.props.tokenId)
+  }
+
+
   getBase64Image = () => {
-    const hash = 'QmfCHzWyFrwmVwDaqj28VgUkHJ4aZA5DNBfcJRxU1GLGeq';
+    const hash =   this.state.hashes[this.props.tokenId];
+    // console.log(this.state.hashes[0])
+    // console.log(hash)
+    // const hash = 'QmfCHzWyFrwmVwDaqj28VgUkHJ4aZA5DNBfcJRxU1GLGeq';
 
     const node = new IPFS();
 
@@ -60,7 +69,6 @@ class Dapp extends Component<any, any> {
         if (err) return console.error(err);
 
         // convert Buffer back to string
-        // console.log(data.toString())
         this.setState({
           ...this.state,
           base64Image: data.toString()
@@ -70,7 +78,7 @@ class Dapp extends Component<any, any> {
   };
 
   async componentDidMount() {
-    this.getBase64Image();
+   
   }
 
   // async componentWillReceiveProps(nextProps: any) {
@@ -80,8 +88,12 @@ class Dapp extends Component<any, any> {
   //   const tokenOwnerObj = nextProps.contracts['ERC721Full']['ownerOf'][tokenOwnerKey]
 
   async componentWillReceiveProps(nextProps: any) {
+
+
+    
     // console.log("hello jason", this.state.hashesKeys)
     const newHashes = this.state.hashes.map((oldHash: any, key: any) => {
+      // console.log(key)
       // this.state.patronageOwedKey in nextProps.contracts['VitalikSteward']['patronageOwed']
       if (
         this.state.hashesKeys[key] in
@@ -94,8 +106,13 @@ class Dapp extends Component<any, any> {
           nextProps.contracts['VitalikSteward']['hashes'][
             this.state.hashesKeys[key]
           ].value;
-        console.log(hashNext);
-        return oldHash !== hashNext ? hashNext : oldHash;
+        // console.log(hashNext);
+        
+        if(oldHash !== hashNext) {
+          return hashNext
+        } else {
+          return imageHash
+        }
       }
     });
     this.setState({ ...this.state, hashes: newHashes });
@@ -125,17 +142,19 @@ class Dapp extends Component<any, any> {
     const showInteracting = true;
     const isTokenOwner = tokenOwner === accounts[0];
 
+    // console.log(this.state.hashes)
+
     return (
       <Fragment>
         <OfflineContainer>
           <div className='image-container'>
             <a href='https://wildcards.world?ref=alwaysforsale'>
-              {this.state.base64Image != '' && (
+              {this.state.hashes[0] != null  && ( //TODO undefined
                 <img
                   src={`${this.state.base64Image}`}
                   style={{ width: '100%' }}
                 />
-              )}
+               )}
             </a>
             {this.props.displayPurchase && (
               <div className='interaction-button-container'>
@@ -196,7 +215,7 @@ class DappWrapper extends Component<any, any> {
     return (
       <UsdPriceProvider>
         <OfflineContainer>
-          <DappConnected displayPurchase={this.props.displayPurchase} />
+          <DappConnected displayPurchase={this.props.displayPurchase} tokenId={this.props.tokenId}/>
         </OfflineContainer>
       </UsdPriceProvider>
     );

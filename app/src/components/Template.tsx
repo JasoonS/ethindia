@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Toggle from 'react-toggle'
+import ToggleButton from 'react-toggle-button'
 import Dapp from "./Dapp"
 import About from './About'
 import HowItWorks from './HowItworks';
@@ -9,7 +10,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 type displayPurchaseState = {
-  displayPurchase: boolean;
+  displayPurchase: boolean,
+  toggle: boolean
 };
 
 class Template extends Component<{}, displayPurchaseState> {
@@ -22,9 +24,9 @@ class Template extends Component<{}, displayPurchaseState> {
       pauseOnHover: true,
       draggable: true
     });
-    setTimeout(()=>{
+    setTimeout(() => {
       toast.info("We are on the crisp chat below please message us with any questions");
-    },6400)
+    }, 6400)
     this.setState({
       displayPurchase: false
     });
@@ -49,19 +51,28 @@ class Template extends Component<{}, displayPurchaseState> {
               onChange={() => {
                 this.setState({ displayPurchase: !this.state.displayPurchase })
               }} />
+
             <span>Purchase Ad Space</span>
           </label>
+          <ToggleButton
+            value={this.state.toggle || false}
+            onToggle={() => {
+              this.setState({
+                toggle: !this.state.toggle,
+              })
+            }} />
+
         </header>
 
         <div className="Grid">
           <div className="Grid-item">
             <TokenIdProvider tokenId={0}>
-              <Dapp displayPurchase={this.state.displayPurchase} />
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={0}/>
             </TokenIdProvider>
           </div>
           <div className="Grid-item">
             <TokenIdProvider tokenId={1}>
-              <Dapp displayPurchase={this.state.displayPurchase} />
+              <Dapp displayPurchase={this.state.displayPurchase} tokenId={1} />
             </TokenIdProvider>
 
           </div>

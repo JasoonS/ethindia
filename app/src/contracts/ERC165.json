@@ -33,9 +33,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.5.0;\n\nimport \"./interfaces/IERC165.sol\";\n\n/**\n * @title ERC165\n * @author Matt Condon (@shrugs)\n * @dev Implements ERC165 using a lookup table.\n */\ncontract ERC165 is IERC165 {\n    bytes4 private constant _INTERFACE_ID_ERC165 = 0x01ffc9a7;\n    /*\n     * 0x01ffc9a7 ===\n     *     bytes4(keccak256('supportsInterface(bytes4)'))\n     */\n\n    /**\n     * @dev a mapping of interface id to whether or not it's supported\n     */\n    mapping(bytes4 => bool) private _supportedInterfaces;\n\n    /**\n     * @dev A contract implementing SupportsInterfaceWithLookup\n     * implement ERC165 itself\n     */\n    constructor () internal {\n        _registerInterface(_INTERFACE_ID_ERC165);\n    }\n\n    /**\n     * @dev implement supportsInterface(bytes4) using a lookup table\n     */\n    function supportsInterface(bytes4 interfaceId) external view returns (bool) {\n        return _supportedInterfaces[interfaceId];\n    }\n\n    /**\n     * @dev internal method for registering an interface\n     */\n    function _registerInterface(bytes4 interfaceId) internal {\n        require(interfaceId != 0xffffffff);\n        _supportedInterfaces[interfaceId] = true;\n    }\n}",
-  "sourcePath": "/Users/johanthan/Code/ethindia/contracts/ERC165.sol",
+  "sourcePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/ERC165.sol",
   "ast": {
-    "absolutePath": "/Users/johanthan/Code/ethindia/contracts/ERC165.sol",
+    "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/ERC165.sol",
     "exportedSymbols": {
       "ERC165": [
         50
@@ -56,7 +56,7 @@
         "src": "0:23:0"
       },
       {
-        "absolutePath": "/Users/johanthan/Code/ethindia/contracts/interfaces/IERC165.sol",
+        "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/interfaces/IERC165.sol",
         "file": "./interfaces/IERC165.sol",
         "id": 2,
         "nodeType": "ImportDirective",
@@ -649,7 +649,7 @@
     "src": "0:1160:0"
   },
   "legacyAST": {
-    "absolutePath": "/Users/johanthan/Code/ethindia/contracts/ERC165.sol",
+    "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/ERC165.sol",
     "exportedSymbols": {
       "ERC165": [
         50
@@ -670,7 +670,7 @@
         "src": "0:23:0"
       },
       {
-        "absolutePath": "/Users/johanthan/Code/ethindia/contracts/interfaces/IERC165.sol",
+        "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/interfaces/IERC165.sol",
         "file": "./interfaces/IERC165.sol",
         "id": 2,
         "nodeType": "ImportDirective",
@@ -1268,11 +1268,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.6",
-<<<<<<< HEAD
-  "updatedAt": "2019-08-03T14:37:40.576Z",
-=======
-  "updatedAt": "2019-08-03T15:55:44.723Z",
->>>>>>> denham
+  "updatedAt": "2019-08-03T18:32:53.929Z",
   "devdoc": {
     "author": "Matt Condon (@shrugs)",
     "details": "Implements ERC165 using a lookup table.",

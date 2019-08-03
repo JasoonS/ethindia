@@ -9,4 +9,5 @@ declare module 'react-toggle';
 declare module 'ipfs';
 declare module 'react-images-upload';
 declare module 'react-toastify';
+declare module 'react-toggle-button';
 

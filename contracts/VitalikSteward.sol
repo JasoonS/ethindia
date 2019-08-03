@@ -50,7 +50,7 @@ contract VitalikSteward {
           state[i] = StewardState.Foreclosed;
         }
         for (uint8 i = 0; i < numberOfTokens; ++i){
-          hashes[i] = "QmaBHAc5mREqhmTLSCaNgpZFBR431rqikv7ezz6pyha3FU";
+          hashes[i] = "QmfCHzWyFrwmVwDaqj28VgUkHJ4aZA5DNBfcJRxU1GLGeq";
         }
     }
 

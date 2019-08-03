@@ -7,11 +7,13 @@ import web3ProvideSwitcher from "../web3ProvideSwitcher"
 import TokenOverview from "./TokenOverview"
 import moment from 'moment'
 import { useTokenId, connectTokenId } from "./TokenIdContext";
+import UploadImage from './UploadImage'
 
 enum ModalState {
   Deposit,
   Price,
   Closed,
+  UploadImage
 }
 
 interface state {
@@ -65,6 +67,21 @@ class BuyModal extends Component<any, any> {
     };
   }
 
+
+  updateImageHashOnSmartContract = (imageHash: string) => {
+    let currentTxIndex: number
+    if(this.state.modalState === ModalState.UploadImage){
+      currentTxIndex = this.contracts.VitalikSteward.methods[
+        'changeImage'
+      ].cacheSend(this.props.tokenId, imageHash)
+    }
+    
+    this.setState((state: any, props: any) => ({
+      ...state,
+      currentTxIndex
+    }))
+  }
+
   handleSubmit(event: any) {
     event.preventDefault();
     let inputValue = this.utils.toWei(this.state.contractFunctions['newSettingValue'], 'ether'); // all number fields are ETH  fields.
@@ -74,11 +91,17 @@ class BuyModal extends Component<any, any> {
       currentTxIndex = this.contracts.VitalikSteward.methods[
         contractFunction
       ].cacheSend(this.props.tokenId, { value: inputValue })
-    } else {
+    } else if (this.state.modalState === ModalState.Price){
       currentTxIndex = this.contracts.VitalikSteward.methods[
         'changePrice'
       ].cacheSend(this.props.tokenId, inputValue)
     }
+    // else if(this.state.modalState === ModalState.UploadImage){
+    //   currentTxIndex = this.contracts.VitalikSteward.methods[
+    //     'changeImage'
+    //   ].cacheSend(this.props.tokenId, inputValue)
+    // }
+    
     this.setState((state: any, props: any) => ({
       ...state,
       currentTxIndex
@@ -206,6 +229,8 @@ class BuyModal extends Component<any, any> {
         <Button mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.Price)} > Update Price</Button>
         &ensp;
         <Button mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.Deposit)} > Add/Remove Deposit</Button>
+        &ensp;
+        <Button mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.UploadImage)} > Upload Image</Button>
         <div style={{position: 'absolute', top: '1000'}}>
         <Modal isOpen={this.state.modalState === ModalState.Price}>
           <Card width={'420px'} p={0}>
@@ -313,6 +338,60 @@ class BuyModal extends Component<any, any> {
                         style={{ width: '100%' }}
                         startAdornment={<InputAdornment position="start">ETH</InputAdornment>}
                       />
+                      <br />
+                    </form>
+                    <TokenOverview />
+                  </Fragment>}
+              </Box>
+              :
+              <Box p={4} mb={3}>
+                <Heading.h3>NOTICE</Heading.h3>
+                <Text>
+                  Unable to connect to metamask, so unable to sign transactions.
+                </Text>
+              </Box>
+            }
+            {(!transactionProcessing) && <Flex px={4} py={3} borderTop={1} borderColor={'#E8E8E8'} justifyContent={'flex-end'}>
+              {/* <Button.Outline>Cancel</Button.Outline> In the future this could be for resetting the values or something*/}
+              <Button
+                mainColor="#6bad3e"
+                ml={3}
+                onClick={this.handleSubmit}
+              >{this.state.depositState ? 'Add' : 'Withdraw'}</Button>
+            </Flex>}
+          </Card>
+        </Modal>
+        <Modal isOpen={this.state.modalState === ModalState.UploadImage}>
+          <Card width={'420px'} p={0}>
+            <Button.Text
+              icononly
+              icon={'Close'}
+              color={'moon-gray'}
+              position={'absolute'}
+              top={0}
+              right={0}
+              mt={3}
+              mr={3}
+              onClick={this.closeModal}
+            />
+            {this.state.connectedToInjectedWeb3 ?
+
+              <Box p={4} mb={3}>{
+                transactionProcessing ?
+                  <Fragment>
+                    <Heading.h3>Processing Transaction</Heading.h3>
+                    <p>{transactionStatus}</p>
+                    {!!txHash && <a href={'https://etherscan.io/tx/' + txHash} target="_blank">View transaction on Ethersan</a>}
+                    {!txComplete && <Loader color="red" size="80px" />}
+                  </Fragment>
+                  :
+                  <Fragment>
+                    <Heading.h3>Upload Image</Heading.h3>
+                    <Text>
+                      We recommend an optimal image dimesions of 300 x 300 pixels
+                    </Text>
+                    <form className="pure-form pure-form-stacked" onSubmit={this.handleSubmit}>
+                    <UploadImage updateImageHashOnSmartContract={this.updateImageHashOnSmartContract}/>                   
                       <br />
                     </form>
                     <TokenOverview />

@@ -373,9 +373,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.5.0;\n\nimport \"./ERC721.sol\";\nimport \"./interfaces/IERC721Metadata.sol\";\nimport \"./ERC165.sol\";\n\ncontract ERC721Metadata is ERC165, ERC721, IERC721Metadata {\n    // Token name\n    string private _name;\n\n    // Token symbol\n    string private _symbol;\n\n    // Optional mapping for token URIs\n    mapping(uint256 => string) private _tokenURIs;\n\n    bytes4 private constant _INTERFACE_ID_ERC721_METADATA = 0x5b5e139f;\n    /*\n     * 0x5b5e139f ===\n     *     bytes4(keccak256('name()')) ^\n     *     bytes4(keccak256('symbol()')) ^\n     *     bytes4(keccak256('tokenURI(uint256)'))\n     */\n\n    /**\n     * @dev Constructor function\n     */\n    constructor (string memory name, string memory symbol) public {\n        _name = name;\n        _symbol = symbol;\n\n        // register the supported interfaces to conform to ERC721 via ERC165\n        _registerInterface(_INTERFACE_ID_ERC721_METADATA);\n    }\n\n    /**\n     * @dev Gets the token name\n     * @return string representing the token name\n     */\n    function name() external view returns (string memory) {\n        return _name;\n    }\n\n    /**\n     * @dev Gets the token symbol\n     * @return string representing the token symbol\n     */\n    function symbol() external view returns (string memory) {\n        return _symbol;\n    }\n\n    /**\n     * @dev Returns an URI for a given token ID\n     * Throws if the token ID does not exist. May return an empty string.\n     * @param tokenId uint256 ID of the token to query\n     */\n    function tokenURI(uint256 tokenId) external view returns (string memory) {\n        require(_exists(tokenId));\n        return _tokenURIs[tokenId];\n    }\n\n    /**\n     * @dev Internal function to set the token URI for a given token\n     * Reverts if the token ID does not exist\n     * @param tokenId uint256 ID of the token to set its URI\n     * @param uri string URI to assign\n     */\n    function _setTokenURI(uint256 tokenId, string memory uri) internal {\n        require(_exists(tokenId));\n        _tokenURIs[tokenId] = uri;\n    }\n\n    /**\n     * @dev Internal function to burn a specific token\n     * Reverts if the token does not exist\n     * Deprecated, use _burn(uint256) instead\n     * @param owner owner of the token to burn\n     * @param tokenId uint256 ID of the token being burned by the msg.sender\n     */\n    function _burn(address owner, uint256 tokenId) internal {\n        super._burn(owner, tokenId);\n\n        // Clear metadata (if any)\n        if (bytes(_tokenURIs[tokenId]).length != 0) {\n            delete _tokenURIs[tokenId];\n        }\n    }\n}",
-  "sourcePath": "/Users/johanthan/Code/ethindia/contracts/ERC721Metadata.sol",
+  "sourcePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/ERC721Metadata.sol",
   "ast": {
-    "absolutePath": "/Users/johanthan/Code/ethindia/contracts/ERC721Metadata.sol",
+    "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/ERC721Metadata.sol",
     "exportedSymbols": {
       "ERC721Metadata": [
         1114
@@ -396,7 +396,7 @@
         "src": "0:23:4"
       },
       {
-        "absolutePath": "/Users/johanthan/Code/ethindia/contracts/ERC721.sol",
+        "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/ERC721.sol",
         "file": "./ERC721.sol",
         "id": 990,
         "nodeType": "ImportDirective",
@@ -407,7 +407,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/johanthan/Code/ethindia/contracts/interfaces/IERC721Metadata.sol",
+        "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/interfaces/IERC721Metadata.sol",
         "file": "./interfaces/IERC721Metadata.sol",
         "id": 991,
         "nodeType": "ImportDirective",
@@ -418,7 +418,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/johanthan/Code/ethindia/contracts/ERC165.sol",
+        "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/ERC165.sol",
         "file": "./ERC165.sol",
         "id": 992,
         "nodeType": "ImportDirective",
@@ -1902,7 +1902,7 @@
     "src": "0:2557:4"
   },
   "legacyAST": {
-    "absolutePath": "/Users/johanthan/Code/ethindia/contracts/ERC721Metadata.sol",
+    "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/ERC721Metadata.sol",
     "exportedSymbols": {
       "ERC721Metadata": [
         1114
@@ -1923,7 +1923,7 @@
         "src": "0:23:4"
       },
       {
-        "absolutePath": "/Users/johanthan/Code/ethindia/contracts/ERC721.sol",
+        "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/ERC721.sol",
         "file": "./ERC721.sol",
         "id": 990,
         "nodeType": "ImportDirective",
@@ -1934,7 +1934,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/johanthan/Code/ethindia/contracts/interfaces/IERC721Metadata.sol",
+        "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/interfaces/IERC721Metadata.sol",
         "file": "./interfaces/IERC721Metadata.sol",
         "id": 991,
         "nodeType": "ImportDirective",
@@ -1945,7 +1945,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/johanthan/Code/ethindia/contracts/ERC165.sol",
+        "absolutePath": "/home/denham/Desktop/Blockchain/ETHIndia/contracts/ERC165.sol",
         "file": "./ERC165.sol",
         "id": 992,
         "nodeType": "ImportDirective",
@@ -3434,11 +3434,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.6",
-<<<<<<< HEAD
-  "updatedAt": "2019-08-03T14:37:40.602Z",
-=======
-  "updatedAt": "2019-08-03T15:55:44.740Z",
->>>>>>> denham
+  "updatedAt": "2019-08-03T18:32:53.950Z",
   "devdoc": {
     "methods": {
       "approve(address,uint256)": {
