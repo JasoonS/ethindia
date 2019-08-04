@@ -8,7 +8,8 @@ import PropTypes from 'prop-types';
 import web3ProvideSwitcher from '../web3ProvideSwitcher';
 import { UsdPriceProvider } from './USDPriceContext';
 import { connectTokenId } from './TokenIdContext';
-import IPFS from 'ipfs';
+import { timeout } from 'q';
+// import IPFS from 'ipfs';
 
 class Dapp extends Component<any, any> {
   contracts: any;
@@ -53,10 +54,11 @@ class Dapp extends Component<any, any> {
     // console.log(hash)
     // const hash = 'QmfCHzWyFrwmVwDaqj28VgUkHJ4aZA5DNBfcJRxU1GLGeq';
 
-    const node = new IPFS();
+    // const node = new IPFS();
 
-    node.once('ready', () => {
-      node.cat(hash, (err: any, data: any) => {
+    setTimeout(() => {
+      console.log('ipfs is readddyyy!!!')
+      window.ipfsNode.cat(hash, (err: any, data: any) => {
         if (err) return console.error(err);
 
         // convert Buffer back to string
@@ -64,8 +66,8 @@ class Dapp extends Component<any, any> {
           ...this.state,
           base64Image: data.toString()
         });
-      });
-    });
+      })
+    }, 1000);
   };
 
   // async componentDidMount() {

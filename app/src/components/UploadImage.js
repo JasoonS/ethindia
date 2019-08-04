@@ -1,5 +1,5 @@
 import React from 'react';
-import IPFS from 'ipfs'
+import { Buffer } from 'ipfs'
 // import ImageUploader from 'react-images-upload';
 
 class UploadImage extends React.Component {
@@ -25,29 +25,29 @@ class UploadImage extends React.Component {
       this.setState({
         image: upload.target.result
       });
-      const node = new IPFS()
+      // const node = new IPFS()
 
       const data = upload.target.result
 
       // once the node is ready
-      node.once('ready', () => {
-        console.log('ipfs is ready')
-        // convert your data to a Buffer and add it to IPFS
-        node.add(IPFS.Buffer.from(data), (err, files) => {
-          console.log('ipfs has returned!')
-          if (err) return console.error(err)
-          console.log('added image to IPFS')
+      // window.ipfsNode.once('ready', () => {
+      console.log('ipfs is ready')
+      // convert your data to a Buffer and add it to IPFS
+      window.ipfsNode.add(Buffer.from(data), (err, files) => {
+        console.log('ipfs has returned!')
+        if (err) return console.error(err)
+        console.log('added image to IPFS')
 
-          // 'hash', known as CID, is a string uniquely addressing the data
-          // and can be used to get it again. 'files' is an array because
-          // 'add' supports multiple additions, but we only added one entry
-          console.log("files[0].hash")
-          console.log("hash:", files[0].hash)
-          this.props.updateImageHashOnSmartContract(files[0].hash)
-        })
-        console.log(this.state.image);
+        // 'hash', known as CID, is a string uniquely addressing the data
+        // and can be used to get it again. 'files' is an array because
+        // 'add' supports multiple additions, but we only added one entry
         console.log("Uploaded");
+        console.log("files[0].hash")
+        console.log("hash:", files[0].hash)
+        this.props.updateImageHashOnSmartContract(files[0].hash)
       })
+      console.log(this.state.image);
+      // })
     };
     reader.readAsDataURL(file);
   }

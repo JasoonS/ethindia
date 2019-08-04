@@ -9,11 +9,18 @@ import { TokenIdProvider } from "./TokenIdContext";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { UsdPriceProvider } from './USDPriceContext';
+import IPFS from 'ipfs'
 
 type displayPurchaseState = {
   displayPurchase: boolean,
   toggle: boolean
 };
+
+declare global {
+  interface Window { ipfsNode: any; }
+}
+
+window.ipfsNode = window.ipfsNode || {};
 
 class Template extends Component<{}, displayPurchaseState> {
   componentWillMount() {
@@ -31,6 +38,12 @@ class Template extends Component<{}, displayPurchaseState> {
     this.setState({
       displayPurchase: false
     });
+
+    if (!!window.ipfsNode) {
+      console.log('loadid ipfs')
+      window.ipfsNode = new IPFS()
+    }
+    console.log('donnnnee')
   }
 
   render() {
