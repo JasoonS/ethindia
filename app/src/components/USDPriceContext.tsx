@@ -33,7 +33,7 @@ export const UsdPriceProvider: React.FunctionComponent<ProviderProps> = ({ child
     const timer = setInterval(async () => {
       const newEtherUsdPrice = await getEtherUsdPrice();
       setEtherUsdPrice(newEtherUsdPrice)
-    }, 1500);
+    }, 3000);
     return () => clearInterval(timer);
   }, [etherUsdPrice]);
 

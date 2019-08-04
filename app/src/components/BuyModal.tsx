@@ -84,8 +84,10 @@ class BuyModal extends Component<any, any> {
 
     // todo: if foreclosed, price should default to zero.
     if (this.state.contractFunctions.value) {
+      const priceKey = this.props.contracts.VitalikSteward['price'][this.state.priceKey]
+      const price = !!priceKey ? (!!priceKey.value ? priceKey.value : 0) : 0
       const artworkPrice = new this.utils.BN(
-        this.props.contracts.VitalikSteward['price'][this.state.priceKey].value
+        price
       );
       args.value = new this.utils.BN(
         this.utils.toWei(this.state.contractFunctions.value, 'ether')
@@ -213,8 +215,8 @@ class BuyModal extends Component<any, any> {
               mr={3}
               onClick={this.closeModal}
             />
-            {this.state.connectedToInjectedWeb3 ? (
-              <Box p={4} mb={3}>
+            {(!!this.props.accounts[0] || this.state.connectedToInjectedWeb3) ? (
+              <Box p={4} mb={3} i>
                 {transactionProcessing ? (
                   <Fragment>
                     <Heading.h3>Processing Transaction</Heading.h3>
@@ -300,7 +302,8 @@ const mapStateToProps = (state: any) => {
   return {
     contracts: state.contracts,
     transactions: state.transactions,
-    transactionStack: state.transactionStack
+    transactionStack: state.transactionStack,
+    accounts: state.accounts
   };
 };
 

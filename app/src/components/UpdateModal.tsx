@@ -94,7 +94,7 @@ class BuyModal extends Component<any, any> {
       'changeUrl'
     ].cacheSend(this.props.tokenId, inputValue)
     // }
-    this.setState((state: any, props: any) => ({ 
+    this.setState((state: any, props: any) => ({
       ...state,
       currentTxIndex
     }))
@@ -102,7 +102,9 @@ class BuyModal extends Component<any, any> {
 
   handleSubmit(event: any) {
     event.preventDefault();
-    let inputValue = this.utils.toWei(this.state.contractFunctions['newSettingValue'], 'ether'); // all number fields are ETH  fields.
+    let inputValueRawMaybe = this.state.contractFunctions['newSettingValue'] // all number fields are ETH  fields.
+    let inputValueRaw = !!inputValueRawMaybe ? inputValueRawMaybe : 0
+    let inputValue = this.utils.toWei(inputValueRaw, 'ether'); // all number fields are ETH  fields.
     let currentTxIndex: number
     if (this.state.modalState === ModalState.Deposit) {
       const contractFunction = this.state.depositState ? 'depositWei' : 'withdrawDeposit'
@@ -134,8 +136,8 @@ class BuyModal extends Component<any, any> {
   componentWillReceiveProps(nextProps: any) {
     const { transactions, transactionStack, tokenId } = this.props;
 
-    const didTransactionsChange = transactions !== nextProps.transactions;
-    const didTransactionStackChange = transactionStack !== nextProps.transactionStack;
+    // const didTransactionsChange = transactions !== nextProps.transactions;
+    // const didTransactionStackChange = transactionStack !== nextProps.transactionStack;
 
     const depositKey = this.context.drizzle.contracts.VitalikSteward.methods.depositAbleToWithdraw.cacheCall(tokenId)
     const depositObj = nextProps.contracts.VitalikSteward.depositAbleToWithdraw[depositKey]
@@ -232,7 +234,7 @@ class BuyModal extends Component<any, any> {
   }
 
   render() {
-    const valueLabel = "Your Initial Deposit";
+    // const valueLabel = "Your Initial Deposit";
     const { transactions, transactionStack } = this.props
     const { currentTxIndex } = this.state
     let transactionStatus = 'Submitting transaction to the Ethereum Network.'
@@ -279,7 +281,7 @@ class BuyModal extends Component<any, any> {
                 mr={3}
                 onClick={this.closeModal}
               />
-              {this.state.connectedToInjectedWeb3 ?
+              {(!!this.props.accounts[0] || this.state.connectedToInjectedWeb3) ?
 
                 <Box p={4} mb={3}>{
                   transactionProcessing ?
@@ -343,7 +345,7 @@ class BuyModal extends Component<any, any> {
               mr={3}
               onClick={this.closeModal}
             />
-            {this.state.connectedToInjectedWeb3 ?
+            {(!!this.props.accounts[0] || this.state.connectedToInjectedWeb3) ?
 
               <Box p={4} mb={3}>{
                 transactionProcessing ?
@@ -408,7 +410,7 @@ class BuyModal extends Component<any, any> {
               mr={3}
               onClick={this.closeModal}
             />
-            {this.state.connectedToInjectedWeb3 ?
+            {(!!this.props.accounts[0] || this.state.connectedToInjectedWeb3) ?
 
               <Box p={4} mb={3}>{
                 transactionProcessing ?
@@ -424,10 +426,11 @@ class BuyModal extends Component<any, any> {
                     <Text>
                       We recommend an optimal image dimesions of 300 x 300 pixels
                     </Text>
-                    <form className="pure-form pure-form-stacked" onSubmit={this.handleSubmit}>
+                    <form className="pure-form pure-form-stacked">
                       <UploadImage updateImageHashOnSmartContract={this.updateImageHashOnSmartContract} />
                       <br />
                     </form>
+                    <Text>Please be patient, uploading the image can take some time.q</Text>
                     <TokenOverview />
                   </Fragment>}
               </Box>
@@ -439,14 +442,6 @@ class BuyModal extends Component<any, any> {
                 </Text>
               </Box>
             }
-            {(!transactionProcessing) && <Flex px={4} py={3} borderTop={1} borderColor={'#E8E8E8'} justifyContent={'flex-end'}>
-              {/* <Button.Outline>Cancel</Button.Outline> In the future this could be for resetting the values or something*/}
-              <Button
-               mainColor='#7A7A7A' size="small"
-                ml={3}
-                onClick={this.handleSubmit}
-              >{this.state.depositState ? 'Add' : 'Withdraw'}</Button>
-            </Flex>}
           </Card>
         </Modal>
         <Modal isOpen={this.state.modalState === ModalState.updateWebsiteUrl}>
@@ -462,7 +457,7 @@ class BuyModal extends Component<any, any> {
               mr={3}
               onClick={this.closeModal}
             />
-            {this.state.connectedToInjectedWeb3 ?
+            {(!!this.props.accounts[0] || this.state.connectedToInjectedWeb3) ?
 
               <Box p={4} mb={3}>{
                 transactionProcessing ?

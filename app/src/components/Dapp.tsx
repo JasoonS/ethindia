@@ -8,7 +8,8 @@ import PropTypes from 'prop-types';
 import web3ProvideSwitcher from '../web3ProvideSwitcher';
 import { UsdPriceProvider } from './USDPriceContext';
 import { connectTokenId } from './TokenIdContext';
-import IPFS from 'ipfs';
+import { timeout } from 'q';
+// import IPFS from 'ipfs';
 
 class Dapp extends Component<any, any> {
   contracts: any;
@@ -53,10 +54,11 @@ class Dapp extends Component<any, any> {
     // console.log(hash)
     // const hash = 'QmfCHzWyFrwmVwDaqj28VgUkHJ4aZA5DNBfcJRxU1GLGeq';
 
-    const node = new IPFS();
+    // const node = new IPFS();
 
-    node.once('ready', () => {
-      node.cat(hash, (err: any, data: any) => {
+    setTimeout(() => {
+      console.log('ipfs is readddyyy!!!')
+      window.ipfsNode.cat(hash, (err: any, data: any) => {
         if (err) return console.error(err);
 
         // convert Buffer back to string
@@ -64,8 +66,8 @@ class Dapp extends Component<any, any> {
           ...this.state,
           base64Image: data.toString()
         });
-      });
-    });
+      })
+    }, 1000);
   };
 
   // async componentDidMount() {
@@ -74,15 +76,15 @@ class Dapp extends Component<any, any> {
 
   async componentWillReceiveProps(nextProps: any) {
 
-    if (this.state.urlKey in this.props.contracts['VitalikSteward']['urls'] && 
-    this.state.urlKey in nextProps.contracts['VitalikSteward']['urls']
-    ){
+    if (this.state.urlKey in this.props.contracts['VitalikSteward']['urls'] &&
+      this.state.urlKey in nextProps.contracts['VitalikSteward']['urls']
+    ) {
       const urlNext =
         nextProps.contracts['VitalikSteward']['urls'][
           this.state.urlKey
         ].value;
 
-      if (this.state.websiteUrl !== urlNext) {        
+      if (this.state.websiteUrl !== urlNext) {
         this.setState({ ...this.state, websiteUrl: urlNext })
       }
     }
@@ -200,11 +202,11 @@ class DappWrapper extends Component<any, any> {
 
   render() {
     return (
-      <UsdPriceProvider>
-        <OfflineContainer>
-          <DappConnected displayPurchase={this.props.displayPurchase} tokenId={this.props.tokenId} />
-        </OfflineContainer>
-      </UsdPriceProvider>
+      // <UsdPriceProvider>
+      <OfflineContainer>
+        <DappConnected displayPurchase={this.props.displayPurchase} tokenId={this.props.tokenId} />
+      </OfflineContainer>
+      // </UsdPriceProvider>
     );
   }
 }
