@@ -23,14 +23,10 @@ header h1 {
   color: white;
 }
 
-footer {
-  transform: translate(0, -300px)
-}
-
 .Grid {
   z-index: 1000;
   width: 60vw;
-  /* height: 60vw; */
+  height: 40vh;
   margin: auto;
   padding: 0;
   display: flex;

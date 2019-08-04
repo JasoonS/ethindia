@@ -23,7 +23,7 @@ window.ipfsNode = window.ipfsNode || {};
 
 class Template extends Component<{}, displayPurchaseState> {
   componentWillMount() {
-    toast.info("Our contracts are bullet proof but our frontend might need a refresh", {
+    toast.info("Our contracts are bullet proof and our frontend is being improved to match it too", {
       position: "top-right",
       autoClose: 6000,
       hideProgressBar: false,
@@ -42,7 +42,7 @@ class Template extends Component<{}, displayPurchaseState> {
       console.log('loadid ipfs')
       window.ipfsNode = new IPFS()
     }
-    console.log('donnnnee')
+    // console.log('donnnnee')
   }
 
   render() {
@@ -55,27 +55,22 @@ class Template extends Component<{}, displayPurchaseState> {
             <h1>
 
               These ads are always for sale, purchase the ad space and set your own monthly payment...
-            <br /> and even make a profit when someone buys the ad space from you
+            <br /> even make a profit when someone buys the ad space from you
             </h1>
+             
 
 
-            <label>
-              <Toggle
-                defaultChecked={this.state.displayPurchase}
-                icons={false}
-                onChange={() => {
-                  this.setState({ displayPurchase: !this.state.displayPurchase })
-                }} />
-
-              <span>Purchase Ad Space</span>
-            </label>
             <ToggleButton
-              value={this.state.toggle || false}
+              value={this.state.displayPurchase || false}
               onToggle={() => {
                 this.setState({
-                  toggle: !this.state.toggle,
+                  displayPurchase: !this.state.displayPurchase,
                 })
               }} />
+            <label>
+              <span style={{color:'white'}}>Click toggle to buy ad</span>
+            </label>
+       
 
           </header>
 
@@ -96,12 +91,12 @@ class Template extends Component<{}, displayPurchaseState> {
                 <Dapp displayPurchase={this.state.displayPurchase} tokenId={2} />
               </TokenIdProvider>
             </div>
-            <div className='Grid-item'>
+            {/* <div className='Grid-item'>
               <TokenIdProvider tokenId={3}>
                 <Dapp displayPurchase={this.state.displayPurchase} tokenId={3} />
               </TokenIdProvider>
-            </div>
-            <div className='Grid-item'>
+            </div> */}
+            {/* <div className='Grid-item'>
               <TokenIdProvider tokenId={4}>
                 <Dapp displayPurchase={this.state.displayPurchase} tokenId={4} />
               </TokenIdProvider>
@@ -125,7 +120,7 @@ class Template extends Component<{}, displayPurchaseState> {
               <TokenIdProvider tokenId={8}>
                 <Dapp displayPurchase={this.state.displayPurchase} tokenId={8} />
               </TokenIdProvider>
-            </div>
+            </div> */}
           </div>
           <footer>
             <div className='socials'>
@@ -159,6 +154,7 @@ class Template extends Component<{}, displayPurchaseState> {
             <HowItWorks />
           </div>
         </footer>
+        <h4 style={{color: 'white', textAlign: 'center'}}>This homepage is currently in line to make 0.8001 ETH per month based on current ad space prices</h4>
           </UsdPriceProvider>
       </div>
     );

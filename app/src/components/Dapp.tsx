@@ -39,7 +39,8 @@ class Dapp extends Component<any, any> {
       urlKey: context.drizzle.contracts.VitalikSteward.methods.urls.cacheCall(props.tokenId),
       hashe: null,
       base64Image: '',
-      websiteUrl: ''
+      websiteUrl: '',
+      totalMonthRevenue: '',
     };
   }
 
@@ -69,6 +70,10 @@ class Dapp extends Component<any, any> {
       })
     }, 1000);
   };
+
+  calcTotalMonthRevenue = (ad1:number, ad2:number, ad3:number) => {
+    this.setState({totalMonthRevenue: (ad1 + ad2 + ad3 )})
+  }
 
   // async componentDidMount() {
 
@@ -125,6 +130,8 @@ class Dapp extends Component<any, any> {
       });
     }
   }
+
+
 
   render() {
     const { tokenOwner } = this.state;

@@ -19,7 +19,7 @@ const options: Options = {
       type: "ws",
       url: fallbackUrl,
     },
-    customProvider: switchableWeb3,
+    // customProvider: switchableWeb3,
     // Repeating this because there seems to be some kind of bug somewhere where web3.web3 is used instead
     web3: {
       block: false,
@@ -27,7 +27,7 @@ const options: Options = {
         type: "ws",
         url: fallbackUrl,
       },
-      customProvider: switchableWeb3,
+      // customProvider: switchableWeb3,
     },
   },
   contracts: [

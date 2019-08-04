@@ -430,7 +430,7 @@ class BuyModal extends Component<any, any> {
                       <UploadImage updateImageHashOnSmartContract={this.updateImageHashOnSmartContract} />
                       <br />
                     </form>
-                    <Text>Please be patient, uploading the image can take some time.q</Text>
+                    <Text>Please be patient, uploading the image can take some time.</Text>
                     <TokenOverview />
                   </Fragment>}
               </Box>

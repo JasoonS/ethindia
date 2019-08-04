@@ -48,10 +48,10 @@ class HowItWorks extends React.Component {
               <Fragment>
                 <h1>How it works?</h1>
                 <p>
-                  1. Log onto our website and a grid showing all 9 advertising
+                  1. Log onto our website and a grid showing all 3 advertising
                   blocks will be displayed.
                 </p>
-                <p>2. All 9 of these blocks will be always on sale… forever.</p>
+                <p>2. All 3 of these blocks will be always on sale… forever.</p>
                 <p>
                   3. Simply click buy on the block you would like to purchase
                   (you will need metamask and small amount of ether):
