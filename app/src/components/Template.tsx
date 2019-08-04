@@ -80,7 +80,7 @@ class Template extends Component<{}, displayPurchaseState> {
               <Dapp displayPurchase={this.state.displayPurchase} tokenId={2}/>
             </TokenIdProvider>
           </div>
-          <div className='Grid-item'>
+          {/* <div className='Grid-item'>
           <TokenIdProvider tokenId={3}>
               <Dapp displayPurchase={this.state.displayPurchase} tokenId={3}/>
             </TokenIdProvider>
@@ -109,7 +109,7 @@ class Template extends Component<{}, displayPurchaseState> {
           <TokenIdProvider tokenId={8}>
               <Dapp displayPurchase={this.state.displayPurchase} tokenId={8}/>
             </TokenIdProvider>
-          </div>
+          </div> */}
         </div>
         <footer>
           <div className='socials'>

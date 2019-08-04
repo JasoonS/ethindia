@@ -2,7 +2,7 @@ body {
   background-image: linear-gradient(to right, #434343 0%, #2c2c2c 100%);
   height: 100vh;
   width: 100vw;
-  /* overflow: hidden; */
+  overflow: hidden;
   font-family: "Poppins", sans-serif;
 }
 
@@ -14,7 +14,7 @@ body {
 }
 
 header {
-  height: 11vh;
+  height: 24vh;
 }
 
 header h1 {
@@ -29,8 +29,8 @@ footer {
 
 .Grid {
   z-index: 1000;
-  width: 78vh;
-  height: 78vh;
+  width: 60vw;
+  /* height: 60vw; */
   margin: auto;
   padding: 0;
   display: flex;
@@ -53,20 +53,21 @@ footer {
 }
 
 .interaction-button-container {
-  background-color: rgba(10, 10, 10, 0.8);
-  color: white;
-  position: absolute;
-  top: 0;
+  /* background-color: rgba(10, 10, 10, 0.8); */
+  background-color: rgba(250, 250, 250, 0.8);
+  color: #727272;
+  /* position: absolute; */
+  /* top: 0;
   width: 100%;
-  height: 100%;
+  height: 100%; */
   /* transform: translate(0%, -100%);  */
 }
 
 .interaction-buttons {
-  position: absolute;
+  /* position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); 
+  transform: translate(-50%, -50%);  */
 }
 
 .socials{
