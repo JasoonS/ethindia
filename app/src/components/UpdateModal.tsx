@@ -258,13 +258,13 @@ class BuyModal extends Component<any, any> {
 
     return (
       <React.Fragment>
-        <Button mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.Price)} > Update Price</Button>
+        <Button style={{width:'100%'}} mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.Price)} > Update Price</Button>
         &ensp;
-        <Button mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.Deposit)} > Add/Remove Deposit</Button>
+        <Button style={{width:'100%'}} mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.Deposit)} > Add/Remove Deposit</Button>
         &ensp;
-        <Button mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.UploadImage)} > Upload Image</Button>
+        <Button style={{width:'100%'}} mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.UploadImage)} > Upload Image</Button>
         &ensp;
-        <Button mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.updateWebsiteUrl)} > Update Website</Button>
+        <Button style={{width:'100%'}} mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.updateWebsiteUrl)} > Update Website</Button>
         <div style={{ position: 'absolute', top: '1000' }}>
           <Modal isOpen={this.state.modalState === ModalState.Price}>
             <Card width={'420px'} p={0}>

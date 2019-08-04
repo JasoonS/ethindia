@@ -127,6 +127,7 @@ class Template extends Component<{}, displayPurchaseState> {
                 Share
               </a>
             </div>
+            <br/>            
             <div>
               <a
                 href='https://twitter.com/intent/tweet?button_hashtag=Alwaysforsale.io&ref_src=twsrc%5Etfw'
@@ -139,6 +140,7 @@ class Template extends Component<{}, displayPurchaseState> {
           </div>
           <div className='more-info'>
             <About />
+            <br/>
             <HowItWorks />
           </div>
         </footer>

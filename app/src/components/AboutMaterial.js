@@ -1,8 +1,14 @@
 import React, { Fragment } from 'react';
-import { Modal, Button, Card, Box, Flex } from 'rimble-ui';
+// import Modal from '@material-ui/core/Modal';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
+import Button from '@material-ui/core/Button';
 
-class About extends React.Component {
+
+class AboutMaterial extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -100,4 +106,4 @@ class About extends React.Component {
     }
 }
 
-export default About;
+export default AboutMaterial;
