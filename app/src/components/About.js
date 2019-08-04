@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Modal, Button, Card, Box, Flex } from 'rimble-ui';
-import Modal from '@material-ui/core/Modal';
+
 
 class About extends React.Component {
     constructor(props) {
