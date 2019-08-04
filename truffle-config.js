@@ -29,7 +29,7 @@ module.exports = {
     goerly: {
       network_id: 5,
       provider: new HDWalletProvider(mnemonic, goerlyProviderUrl, 0),
-      gas: 4700000,
+      // gas: 47000000,
       gasPrice: 10000000000, // 10 gwei
       skipDryRun: true,
     },

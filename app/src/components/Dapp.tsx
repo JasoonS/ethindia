@@ -74,15 +74,15 @@ class Dapp extends Component<any, any> {
 
   async componentWillReceiveProps(nextProps: any) {
 
-    if (this.state.urlKey in this.props.contracts['VitalikSteward']['urls'] && 
-    this.state.urlKey in nextProps.contracts['VitalikSteward']['urls']
-    ){
+    if (this.state.urlKey in this.props.contracts['VitalikSteward']['urls'] &&
+      this.state.urlKey in nextProps.contracts['VitalikSteward']['urls']
+    ) {
       const urlNext =
         nextProps.contracts['VitalikSteward']['urls'][
           this.state.urlKey
         ].value;
 
-      if (this.state.websiteUrl !== urlNext) {        
+      if (this.state.websiteUrl !== urlNext) {
         this.setState({ ...this.state, websiteUrl: urlNext })
       }
     }
@@ -200,11 +200,11 @@ class DappWrapper extends Component<any, any> {
 
   render() {
     return (
-      <UsdPriceProvider>
-        <OfflineContainer>
-          <DappConnected displayPurchase={this.props.displayPurchase} tokenId={this.props.tokenId} />
-        </OfflineContainer>
-      </UsdPriceProvider>
+      // <UsdPriceProvider>
+      <OfflineContainer>
+        <DappConnected displayPurchase={this.props.displayPurchase} tokenId={this.props.tokenId} />
+      </OfflineContainer>
+      // </UsdPriceProvider>
     );
   }
 }

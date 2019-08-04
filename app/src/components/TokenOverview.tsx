@@ -29,79 +29,79 @@ const nullTime = {
   millisec: 0,
 }
 
-const calculateCountdown = (endDate: string) => {
-  // let diff = (new Date(endDate)).
-  let diff = (Date.parse((new Date(endDate)).toUTCString()) - Date.parse((new Date()).toUTCString())) / 1000;
+// const calculateCountdown = (endDate: string) => {
+//   // let diff = (new Date(endDate)).
+//   let diff = (Date.parse((new Date(endDate)).toUTCString()) - Date.parse((new Date()).toUTCString())) / 1000;
 
-  // clear countdown when date is reached
-  if (diff <= 0) return nullTime;
+//   // clear countdown when date is reached
+//   if (diff <= 0) return nullTime;
 
-  const timeLeft = nullTime;
+//   const timeLeft = nullTime;
 
-  // calculate time difference between now and expected date
-  if (diff >= (365.25 * 86400)) { // 365.25 * 24 * 60 * 60
-    timeLeft.years = Math.floor(diff / (365.25 * 86400));
-    diff -= timeLeft.years * 365.25 * 86400;
-  }
-  if (diff >= 86400) { // 24 * 60 * 60
-    timeLeft.days = Math.floor(diff / 86400);
-    diff -= timeLeft.days * 86400;
-  }
-  if (diff >= 3600) { // 60 * 60
-    timeLeft.hours = Math.floor(diff / 3600);
-    diff -= timeLeft.hours * 3600;
-  }
-  if (diff >= 60) {
-    timeLeft.minutes = Math.floor(diff / 60);
-    diff -= timeLeft.minutes * 60;
-  }
-  timeLeft.seconds = diff;
+//   // calculate time difference between now and expected date
+//   if (diff >= (365.25 * 86400)) { // 365.25 * 24 * 60 * 60
+//     timeLeft.years = Math.floor(diff / (365.25 * 86400));
+//     diff -= timeLeft.years * 365.25 * 86400;
+//   }
+//   if (diff >= 86400) { // 24 * 60 * 60
+//     timeLeft.days = Math.floor(diff / 86400);
+//     diff -= timeLeft.days * 86400;
+//   }
+//   if (diff >= 3600) { // 60 * 60
+//     timeLeft.hours = Math.floor(diff / 3600);
+//     diff -= timeLeft.hours * 3600;
+//   }
+//   if (diff >= 60) {
+//     timeLeft.minutes = Math.floor(diff / 60);
+//     diff -= timeLeft.minutes * 60;
+//   }
+//   timeLeft.seconds = diff;
 
-  return timeLeft;
-}
+//   return timeLeft;
+// }
 
 // Functional component for sake of reactHooks...
 const DisplayComponent: React.FunctionComponent<DisplayProps> = ({ combinedCollected, vitalikPriceEth: vitalikPriceEth, foreclosureTime }) => {
 
-  const [countDown, setCountdown] = useState(nullTime);
+  // const [countDown, setCountdown] = useState(nullTime);
   const usdPrice = useUsdPrice()
   const priceOfGorillaInUsd = parseFloat(vitalikPriceEth) * usdPrice
   const combinedCollectedUsd = parseFloat(combinedCollected) * usdPrice
 
-  useEffect(() => {
-    const date = calculateCountdown(foreclosureTime);
-    setCountdown(date);
-    const interval = setInterval(() => {
-      if (foreclosureTime !== "N/A") {
+  // useEffect(() => {
+  //   const date = calculateCountdown(foreclosureTime);
+  //   setCountdown(date);
+  //   const interval = setInterval(() => {
+  //     if (foreclosureTime !== "N/A") {
 
-        const date = calculateCountdown(foreclosureTime);
-        setCountdown(date);
-      }
-    }, 1000);
-    return () => clearTimeout(interval);
-  }, [foreclosureTime]);
+  //       const date = calculateCountdown(foreclosureTime);
+  //       setCountdown(date);
+  //     }
+  //   }, 1000);
+  //   return () => clearTimeout(interval);
+  // }, [foreclosureTime]);
 
-  const tooltipContent = () =>
-    foreclosureTime !== "N/A" ?
-      <div className="section">
-        <p>The deposit for Vitalik will run out on {foreclosureTime}</p>
-        <p>Time until deposit runs out in <Countdown countDown={countDown} /></p>
-      </div>
-      :
-      <div className="section">
-        <p>Loading deposit info</p>
-      </div>
+  // const tooltipContent = () =>
+  //   foreclosureTime !== "N/A" ?
+  //     <div className="section">
+  //       <p>The deposit for Vitalik will run out on {foreclosureTime}</p>
+  //       <p>Time until deposit runs out in <Countdown countDown={countDown} /></p>
+  //     </div>
+  //     :
+  //     <div className="section">
+  //       <p>Loading deposit info</p>
+  //     </div>
 
   return (
     <div className="section image-block-text">
-      <Tooltip message={tooltipContent()}>
-        <p>
-          Current Price: <ContractData contract="VitalikSteward" method="price" toEth /> ETH.{priceOfGorillaInUsd > 0 && ` (~ ${priceOfGorillaInUsd.toFixed(2)} USD)`}
-          <br />
-          Total Raised: {(parseFloat(combinedCollected) < 0) ? 'LOADING' : parseFloat(combinedCollected).toFixed(7/*7 digits is enough to see the price changing when asset is reasonably priced*/)} ETH.{combinedCollectedUsd > 0 && ` (~ ${combinedCollectedUsd.toFixed(2)} USD)`}
-        </p>
-      </Tooltip>
+      {/* <Tooltip message={tooltipContent()}> */}
+      <p>
+        Current Price: <ContractData contract="VitalikSteward" method="price" toEth /> ETH.{priceOfGorillaInUsd > 0 && ` (~ ${priceOfGorillaInUsd.toFixed(2)} USD)`}
+      </p>
+      {/* </Tooltip> */}
     </div>
+    // <br />
+    // Total Raised: {(parseFloat(combinedCollected) < 0) ? 'LOADING' : parseFloat(combinedCollected).toFixed(7/*7 digits is enough to see the price changing when asset is reasonably priced*/)} ETH.{combinedCollectedUsd > 0 && ` (~ ${combinedCollectedUsd.toFixed(2)} USD)`}
   )
 }
 class ActionSection extends Component<{ contracts: any }, {}>  {
@@ -141,7 +141,7 @@ class ActionSection extends Component<{ contracts: any }, {}>  {
     this.state = {
       ...this.state,
       patronageOwed: this.getPatronageOwed(props),
-      combinedCollected: this.getCombinedCellected(props),
+      // combinedCollected: this.getCombinedCellected(props),
       vitalikPrice: this.getVitalikPriceEth(props),
     };
   }
@@ -167,52 +167,52 @@ class ActionSection extends Component<{ contracts: any }, {}>  {
 
     return "-1"
   }
-  getCombinedCellected(props: any) {
-    const patronageOwed = this.getPatronageOwed(props);
-    const totalCollected = this.getTotalCollected(props);
-    if (patronageOwed !== "-1" && totalCollected !== "-1")
-      return this.utils.fromWei(totalCollected.add(patronageOwed), 'ether').toString();
+  // getCombinedCellected(props: any) {
+  //   const patronageOwed = this.getPatronageOwed(props);
+  //   const totalCollected = this.getTotalCollected(props);
+  //   if (patronageOwed !== "-1" && totalCollected !== "-1")
+  //     return this.utils.fromWei(totalCollected.add(patronageOwed), 'ether').toString();
 
-    return "-1"
-  }
+  //   return "-1"
+  // }
 
-  async updateCombineCollected(props: any) {
-    const patronageOwed = this.getPatronageOwed(props);
-    const combinedCollected = this.getCombinedCellected(props)
+  // async updateCombineCollected(props: any) {
+  //   const patronageOwed = this.getPatronageOwed(props);
+  //   const combinedCollected = this.getCombinedCellected(props)
 
-    // This is hacky, but just putting this here for now
-    const vitalikPrice = this.getVitalikPriceEth(props);
+  //   // This is hacky, but just putting this here for now
+  //   const vitalikPrice = this.getVitalikPriceEth(props);
 
-    this.setState({
-      patronageOwed,
-      combinedCollected,
-      vitalikPrice,
-    });
-  }
+  //   this.setState({
+  //     patronageOwed,
+  //     combinedCollected,
+  //     vitalikPrice,
+  //   });
+  // }
   // loadComponentData
 
   async componentWillReceiveProps(nextProps: any) {
-    if (this.props.contracts['VitalikSteward']['price']['0x0'] !== nextProps.contracts['VitalikSteward']['price']['0x0']) {
-      if (nextProps.contracts['VitalikSteward']['price']['0x0'].value === '0') {
-        this.setState({
-          foreclosureTime: "N/A"
-        });
-      } else {
-        const foreclosureTime = moment(parseInt(await this.contracts.VitalikSteward.methods.foreclosureTime().call()) * 1000).toString();
-        this.setState({ foreclosureTime });
-      }
-    }
+    // if (this.props.contracts['VitalikSteward']['price']['0x0'] !== nextProps.contracts['VitalikSteward']['price']['0x0']) {
+    //   if (nextProps.contracts['VitalikSteward']['price']['0x0'].value === '0') {
+    //     this.setState({
+    //       foreclosureTime: "N/A"
+    //     });
+    //   } else {
+    //     const foreclosureTime = moment(parseInt(await this.contracts.VitalikSteward.methods.foreclosureTime().call()) * 1000).toString();
+    //     this.setState({ foreclosureTime });
+    //   }
+    // }
 
-    if (this.state.patronageOwedKey in this.props.contracts['VitalikSteward']['patronageOwed']
-      && this.state.patronageOwedKey in nextProps.contracts['VitalikSteward']['patronageOwed']
-      && this.state.totalCollectedKey in this.props.contracts['VitalikSteward']['totalCollected']
-      && this.state.totalCollectedKey in nextProps.contracts['VitalikSteward']['totalCollected']) {
-      const ownedNow = this.getPatronageOwed(this.props)
-      const ownedNext = this.getPatronageOwed(nextProps)
-      if (ownedNow === "-1" || ownedNext === "-1" || !ownedNow.eq(ownedNext) || this.state.combinedCollected === "-1") {
-        this.updateCombineCollected(nextProps);
-      }
-    }
+    // if (this.state.patronageOwedKey in this.props.contracts['VitalikSteward']['patronageOwed']
+    //   && this.state.patronageOwedKey in nextProps.contracts['VitalikSteward']['patronageOwed']
+    //   && this.state.totalCollectedKey in this.props.contracts['VitalikSteward']['totalCollected']
+    //   && this.state.totalCollectedKey in nextProps.contracts['VitalikSteward']['totalCollected']) {
+    //   const ownedNow = this.getPatronageOwed(this.props)
+    //   const ownedNext = this.getPatronageOwed(nextProps)
+    //   if (ownedNow === "-1" || ownedNext === "-1" || !ownedNow.eq(ownedNext) || this.state.combinedCollected === "-1") {
+    //     this.updateCombineCollected(nextProps);
+    //   }
+    // }
   }
 
   render() {
