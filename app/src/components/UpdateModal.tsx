@@ -260,13 +260,13 @@ class BuyModal extends Component<any, any> {
 
     return (
       <React.Fragment>
-        <Button mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.Price)} > Update Price</Button>
+        <Button style={{width:'100%'}} mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.Price)} > Update Price</Button>
         &ensp;
-        <Button mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.Deposit)} > Add/Remove Deposit</Button>
+        <Button style={{width:'100%'}} mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.Deposit)} > Add/Remove Deposit</Button>
         &ensp;
-        <Button mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.UploadImage)} > Upload Image</Button>
+        <Button style={{width:'100%'}} mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.UploadImage)} > Upload Image</Button>
         &ensp;
-        <Button mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.updateWebsiteUrl)} > Update Website</Button>
+        <Button style={{width:'100%'}} mainColor='#7A7A7A' size="small" onClick={() => this.openModal(ModalState.updateWebsiteUrl)} > Update Website</Button>
         <div style={{ position: 'absolute', top: '1000' }}>
           <Modal isOpen={this.state.modalState === ModalState.Price}>
             <Card width={'420px'} p={0}>
@@ -324,7 +324,7 @@ class BuyModal extends Component<any, any> {
               {(!transactionProcessing) && <Flex px={4} py={3} borderTop={1} borderColor={'#E8E8E8'} justifyContent={'flex-end'}>
                 {/* <Button.Outline>Cancel</Button.Outline> In the future this could be for resetting the values or something*/}
                 <Button
-                  mainColor="#6bad3e"
+                  mainColor='#7A7A7A' size="small"
                   ml={3}
                   onClick={this.handleSubmit}
                 >Update</Button>
@@ -390,7 +390,7 @@ class BuyModal extends Component<any, any> {
             {(!transactionProcessing) && <Flex px={4} py={3} borderTop={1} borderColor={'#E8E8E8'} justifyContent={'flex-end'}>
               {/* <Button.Outline>Cancel</Button.Outline> In the future this could be for resetting the values or something*/}
               <Button
-                mainColor="#6bad3e"
+               mainColor='#7A7A7A' size="small"
                 ml={3}
                 onClick={this.handleSubmit}
               >{this.state.depositState ? 'Add' : 'Withdraw'}</Button>
@@ -501,7 +501,7 @@ class BuyModal extends Component<any, any> {
             {(!transactionProcessing) && <Flex px={4} py={3} borderTop={1} borderColor={'#E8E8E8'} justifyContent={'flex-end'}>
               {/* <Button.Outline>Cancel</Button.Outline> In the future this could be for resetting the values or something*/}
               <Button
-                mainColor="#6bad3e"
+                mainColor='#7A7A7A' size="small"
                 ml={3}
                 onClick={this.handleSubmitOfWebsite}
               >Update Website Url</Button>

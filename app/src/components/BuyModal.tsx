@@ -80,6 +80,8 @@ class BuyModal extends Component<any, any> {
     event.preventDefault();
     let args: any = {};
 
+    console.log(this.props.contracts.VitalikSteward['price'][this.state.priceKey].value)
+
     // todo: if foreclosed, price should default to zero.
     if (this.state.contractFunctions.value) {
       const priceKey = this.props.contracts.VitalikSteward['price'][this.state.priceKey]
@@ -284,7 +286,7 @@ class BuyModal extends Component<any, any> {
             {(!transactionProcessing) && <Flex px={4} py={3} borderTop={1} borderColor={'#E8E8E8'} justifyContent={'flex-end'}>
               {/* <Button.Outline>Cancel</Button.Outline> In the future this could be for resetting the values or something*/}
               <Button
-                mainColor="#2c2c2c"
+                mainColor='#7A7A7A' size="small"
                 ml={3}
                 onClick={this.handleSubmit}
               >Purchase this ad space</Button>

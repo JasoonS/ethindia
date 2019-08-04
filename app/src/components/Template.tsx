@@ -4,7 +4,6 @@ import ToggleButton from 'react-toggle-button'
 import Dapp from "./Dapp"
 import About from './About'
 import HowItWorks from './HowItworks';
-import UploadImage from './UploadImage';
 import { TokenIdProvider } from "./TokenIdContext";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -154,14 +153,13 @@ class Template extends Component<{}, displayPurchaseState> {
               </a>
               </div>
             </div>
-            <div className='more-info'>
-              <About />
-              <HowItWorks />
-            </div>
-          </footer>
-
-          {/* <UploadImage /> */}
-        </UsdPriceProvider>
+          <div className='more-info'>
+            <About />
+            <br/>
+            <HowItWorks />
+          </div>
+        </footer>
+          </UsdPriceProvider>
       </div>
     );
   }
